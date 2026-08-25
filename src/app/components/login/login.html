@@ -1,19 +1,9 @@
 <div class="relative min-h-screen overflow-hidden bg-slate-50">
     <!--MAIN-->
-    <main class="relative flex min-h-screen
-           items-center justify-center
-           px-4 py-6
-           sm:px-6
-           lg:px-8">
+    <main class="relative flex min-h-screen items-center justify-center px-4 py-6 sm:px-6 lg:px-8">
 
         <!-- LOGIN CARD -->
-        <section class="w-full max-w-[490px]
-                     rounded-[22px]
-                     border border-white
-                     bg-white
-                     px-6 py-8
-                     shadow-[0_20px_60px_rgba(15,23,42,0.08)]
-                     sm:px-10 sm:py-10">
+        <section class="w-full max-w-[490px] rounded-[22px] border border-white bg-white px-6 py-8 shadow-[0_20px_60px_rgba(15,23,42,0.08)] sm:px-10 sm:py-10">
 
             <!-- LOGO -->
             <div class=" flex justify-center">
@@ -44,13 +34,12 @@
             @if (successMessage) {
             <div
                 class="mb-5 flex items-center gap-3 rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-600">
-                <span class="flex h-6 w-6 items-center justify-center rounded-full bg-green-100">✓</span>
                 {{ successMessage }}
             </div>
             }
 
             <!-- FORM -->
-            <form  [formGroup] = "loginForm" (ngSubmit)="login()" novalidate class="mt-2">
+            <form  [formGroup] = "loginForm" (ngSubmit)="login()" novalidate class="mt-5 space-y-3">
                 <!-- EMAIL -->
                 <div class="mb-6">
                     <label for="email" class="mb-2 block text-[14px] font-semibold text-slate-800">Email Address</label>
@@ -175,8 +164,8 @@
             <!-- REGISTER -->
             <div class="mt-8 text-center text-[14px] text-slate-500">
                 Don't have an account?
-                <button type="button" class="ml-1 font-medium text-blue-600 hover:text-blue-700 hover:underline">
-                    Create account
+                <button type="button" class="ml-1 font-medium text-blue-600 hover:text-blue-700 hover:underline" (click)="createAccount()">
+                    Create Account
                 </button>
             </div>
 

@@ -6,7 +6,7 @@ import { email } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-login',
-  imports: [ ReactiveFormsModule],
+  imports: [ReactiveFormsModule],
   templateUrl: './login.html',
   styleUrl: './login.css',
 })
@@ -98,8 +98,14 @@ export class Login {
     }
   }
 
+  //Forgot Password Page Navigation
   protected forgotPassword():void {
     this.router.navigate(['/forgot-password']);
+  }
+
+  //Create Account Page Navigation
+   protected createAccount():void {
+    this.router.navigate(['/signup']);
   }
 
   private getFirebaseErrorMessage(error: unknown): string {
