@@ -60,7 +60,7 @@ export class ForgotPassword {
   }
 
   protected backToSignin(){
-    this.router.navigate(['/signin']);
+    this.router.navigate(['/login']);
   }
 
 }

@@ -1,0 +1,1006 @@
+<div class="min-h-screen bg-slate-50 flex items-center justify-center px-4">
+
+  <div
+    class="w-full max-w-[680px] rounded-[28px] bg-white px-6 py-6 shadow-[0_15px_45px_rgba(15,23,42,0.08)] sm:px-10 sm:py-12 md:px-16 md:py-12">
+
+    <!-- ========================================================= -->
+    <!-- SECTION 0 : WELCOME -->
+    <!-- ========================================================= -->
+
+    @if (currentSection === 0) {
+
+    <section id="section-0">
+
+      <div class="flex justify-center">
+
+        <div class="items-center">
+
+          <!-- Wallet Logo -->
+          <div class="flex items-center justify-center">
+            <img src="/images/my-wallet-logo.png" alt="My Wallet Logo" class="h-10 object-contain" />
+          </div>
+          <div class="flex items-center justify-center">
+            <span class="font-jakarta font-bold text-[#1685F5]">
+              Welcome to
+            </span>
+          </div>
+
+          <!-- Wallet Title -->
+          <div class="flex items-center justify-center">
+            <img src="/images/my-wallet-title.png" alt="My Wallet Title" class="h-10 object-contain" />
+          </div>
+
+
+          <!-- Welcome Text -->
+          <div class="items-center mt-2">
+
+            <p class="mx-auto mt-3 max-w-[460px] text-center text-base leading-7 text-slate-500 sm:text-m">
+              Take control of your finances with one simple place to track your spending, manage your
+              accounts, and work towards your financial goals.
+            </p>
+
+          </div>
+
+
+          <!-- Welcome Image -->
+          <div class="flex items-center justify-center max-w-[500px]">
+            <img src="/images/onboarding_welcome.png" alt="Welcome to My Wallet" class="object-contain" />
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- Continue Button -->
+      <button type="button" (click)="next()"
+        class="group mt-6 mx-auto w-[300px] flex justify-center h-11 items-center gap-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-blue-500 px-5 text-base font-semibold text-white shadow-lg shadow-blue-200 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl active:translate-y-0">
+
+        <span>
+          Setup My Wallet
+        </span>
+
+        <span
+          class="flex h-6 w-6 items-center justify-center rounded-full bg-white/15 transition-transform duration-300 group-hover:translate-x-1">
+
+          <fa-icon [icon]="faArrowRight"></fa-icon>
+
+        </span>
+
+      </button>
+
+    </section>
+
+    }
+
+
+    <!-- ========================================================= -->
+    <!-- SECTION 1 : CURRENCY -->
+    <!-- ========================================================= -->
+
+    @if (currentSection === 1) {
+
+    <section id="section-1">
+
+      <div class="flex justify-center">
+
+        <div class="items-center">
+
+          <!-- Wallet Logo -->
+          <div class="flex items-center justify-center">
+            <img src="/images/my-wallet-logo.png" alt="My Wallet Logo" class="h-10 object-contain" />
+          </div>
+
+
+          <!-- Wallet Title -->
+          <div class="flex items-center justify-center">
+            <img src="/images/my-wallet-title.png" alt="My Wallet Title" class="h-10 object-contain" />
+          </div>
+
+
+          <!-- Currency Heading -->
+          <div class="text-center justify-center mt-2">
+
+            <span class="font-jakarta font-bold text-[#1685F5]">
+              Choose your Currency
+            </span>
+
+            <p class="mx-auto mt-3 max-w-[460px] text-center text-base leading-7 text-slate-500 sm:text-m">
+              This will be the default currency for your wallet and all transactions.
+            </p>
+
+          </div>
+
+
+          <!-- Currency Grid -->
+          <div class="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
+
+            @for (currency of currencies; track currency.code) {
+
+            <button type="button" (click)="selectCurrency(currency.code,currency.country)"
+              class="group relative flex h-[96px] items-center gap-3.5 overflow-hidden rounded-xl border bg-white px-4 py-3 text-left transition-all duration-300 ease-out hover:-translate-y-0.5 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-blue-100"
+              [class.border-blue-500]="selectedCurrency === currency.code"
+              [class.bg-blue-50]="selectedCurrency === currency.code"
+              [class.shadow-[0_6px_20px_rgba(37,99,235,0.12)]]="selectedCurrency === currency.code"
+              [class.border-slate-200]="selectedCurrency !== currency.code"
+              [class.hover:border-blue-300]="selectedCurrency !== currency.code"
+              [class.hover:bg-slate-50]="selectedCurrency !== currency.code">
+
+
+              <!-- Subtle Background Glow -->
+              <div
+                class="pointer-events-none absolute -right-8 -top-8 h-20 w-20 rounded-full bg-blue-100/50 blur-2xl opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+              </div>
+
+
+              <!-- Circular Flag -->
+              <div
+                class="relative z-10 flex h-14 w-14 shrink-0 items-center justify-center rounded-full border border-slate-100 bg-white shadow-sm transition-all duration-300 group-hover:scale-105"
+                [class.border-blue-200]="selectedCurrency === currency.code">
+
+                <img src="/images/{{ currency.code }}.png" [alt]="currency.name + ' flag'"
+                  class="h-9 w-9 rounded-full object-cover shadow-sm" />
+
+              </div>
+
+
+              <!-- Currency Details -->
+              <div class="relative z-10 min-w-0 flex-1">
+
+                <h3
+                  class="truncate text-sm font-bold text-[#102a68] transition-colors duration-300 group-hover:text-blue-600">
+                  {{ currency.name }}
+                </h3>
+
+
+                <div class="mt-0.5 flex items-center gap-1.5">
+
+                  <span class="text-[11px] font-bold text-slate-500">
+                    {{ currency.code }}
+                  </span>
+
+                  <span class="text-slate-300">
+                    •
+                  </span>
+
+                  <span class="text-xs font-semibold text-blue-600">
+                    {{ currency.symbol }}
+                  </span>
+
+                </div>
+
+
+                <span
+                  class="mt-1.5 inline-flex rounded-full bg-slate-100 px-2 py-0.5 text-[9px] font-semibold text-slate-500 transition-colors duration-300 group-hover:bg-blue-100 group-hover:text-blue-600"
+                  [class.bg-blue-100]="selectedCurrency === currency.code"
+                  [class.text-blue-600]="selectedCurrency === currency.code">
+
+                  {{ currency.country }}
+
+                </span>
+
+              </div>
+
+
+              <!-- Selected Check -->
+              @if (selectedCurrency === currency.code) {
+
+              <span
+                class="absolute right-3 top-3 flex h-5 w-5 items-center justify-center rounded-full bg-blue-600 text-white shadow-sm shadow-blue-200">
+
+                <fa-icon [icon]="faCheck" class="text-[9px]">
+                </fa-icon>
+
+              </span>
+
+              }
+
+            </button>
+
+            }
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- Currency Navigation -->
+      <div class="mt-8 flex justify-center gap-4">
+
+        <!-- Previous -->
+        <button type="button" (click)="previous()"
+          class="group flex h-11 w-[300px] items-center justify-center gap-2.5 rounded-xl border border-slate-200 bg-white px-5 text-base font-semibold text-[#102a68] shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-slate-300 hover:bg-slate-50 hover:shadow-md active:translate-y-0">
+
+          <span
+            class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-slate-100 text-slate-600 transition-all duration-300 group-hover:-translate-x-1 group-hover:bg-blue-50 group-hover:text-blue-600">
+
+            <fa-icon [icon]="faArrowLeft" class="text-sm">
+            </fa-icon>
+
+          </span>
+
+          <span>
+            Previous
+          </span>
+
+        </button>
+
+
+        <!-- Next -->
+        <button type="button" [disabled]="!selectedCurrency || !selectedCountry" (click)="saveCurrency()" class="group flex h-11 w-[300px] items-center justify-center gap-2.5 rounded-xl
+         bg-gradient-to-r from-blue-600 to-blue-500 px-5 text-base font-semibold text-white
+         shadow-lg shadow-blue-200
+         transition-all duration-300
+         hover:-translate-y-0.5 hover:shadow-xl
+         active:translate-y-0
+         disabled:cursor-not-allowed
+         disabled:opacity-50
+         disabled:shadow-none
+         disabled:hover:translate-y-0
+         disabled:hover:shadow-none">
+          <span> Next </span>
+          <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-white/15
+           transition-transform duration-300
+           group-hover:translate-x-1
+           group-has-[:disabled]:group-hover:translate-x-0">
+            <fa-icon [icon]="faArrowRight" class="text-sm"></fa-icon>
+          </span>
+        </button>
+      </div>
+    </section>
+    }
+
+
+    <!-- ========================================================= -->
+    <!-- SECTION 2 : FIRST ACCOUNT -->
+    <!-- ========================================================= -->
+
+    @if (currentSection === 2) {
+
+    <section id="section-2">
+      <div class="flex justify-center">
+        <div class="w-full items-center">
+          <!-- Wallet Logo -->
+          <div class="flex items-center justify-center">
+            <img src="/images/my-wallet-logo.png" alt="My Wallet Logo" class="h-10 object-contain" />
+          </div>
+          <!-- Wallet Title -->
+          <div class="flex items-center justify-center">
+            <img src="/images/my-wallet-title.png" alt="My Wallet Title" class="h-10 object-contain" />
+          </div>
+          <!-- Heading -->
+          <div class="mt-2 text-center">
+            <span class="font-jakarta font-bold text-[#1685F5]"> Let's Setup your First Account </span>
+            <p
+              class="mx-auto mt-3 max-w-[460px] px-1 text-center text-sm leading-6 text-slate-500 sm:text-base sm:leading-7">
+              Add your first account and manage your finances from one simple place.
+            </p>
+          </div>
+
+          <!-- ================================================= -->
+          <!-- ACCOUNT TYPE CARDS -->
+          <!-- ================================================= -->
+
+          <div class="mt-6 grid grid-cols-2 gap-2.5 sm:mt-7 md:grid-cols-4">
+            <!-- BANK -->
+            <button type="button" (click)="selectAccount('bank')"
+              class="group relative min-h-[115px] rounded-2xl border p-3 text-left transition-all duration-200 hover:-translate-y-1 hover:shadow-lg sm:min-h-[125px] sm:p-4"
+              [class.border-blue-500]="selectedAccount === 'bank'" [class.bg-blue-50/40]="selectedAccount === 'bank'"
+              [class.shadow-md]="selectedAccount === 'bank'" [class.shadow-blue-100]="selectedAccount === 'bank'"
+              [class.border-slate-200]="selectedAccount !== 'bank'" [class.bg-white]="selectedAccount !== 'bank'"
+              [class.hover:border-blue-200]="selectedAccount !== 'bank'">
+
+              @if (selectedAccount === 'bank') {
+              <span
+                class="absolute right-2 top-2 flex h-5 w-5 items-center justify-center rounded-full bg-blue-600 text-white sm:right-3 sm:top-3 sm:h-6 sm:w-6">
+                <fa-icon [icon]="faCheck" class="text-[9px] sm:text-xs"> </fa-icon>
+              </span>
+              }
+
+              <div class="mb-2 flex h-9 w-9 items-center justify-center rounded-xl bg-blue-50 sm:mb-3 sm:h-11 sm:w-11">
+                <img src="/images/bank.png" alt="Bank" class="h-7 w-7 object-contain sm:h-8 sm:w-8" />
+              </div>
+              <p class="text-xs font-bold text-[#132e63] sm:text-sm"> Bank Account </p>
+              <p class="mt-1 text-[10px] leading-4 text-slate-400 sm:text-[11px]"> Connect your bank </p>
+            </button>
+
+
+            <!-- CREDIT CARD -->
+            <button type="button" (click)="selectAccount('credit-card')"
+              class="group relative min-h-[115px] rounded-2xl border p-3 text-left transition-all duration-200 hover:-translate-y-1 hover:shadow-lg sm:min-h-[125px] sm:p-4"
+              [class.border-blue-500]="selectedAccount === 'credit-card'"
+              [class.bg-blue-50/40]="selectedAccount === 'credit-card'"
+              [class.shadow-md]="selectedAccount === 'credit-card'"
+              [class.shadow-blue-100]="selectedAccount === 'credit-card'"
+              [class.border-slate-200]="selectedAccount !== 'credit-card'"
+              [class.bg-white]="selectedAccount !== 'credit-card'"
+              [class.hover:border-blue-200]="selectedAccount !== 'credit-card'">
+
+              @if (selectedAccount === 'credit-card') {
+              <span
+                class="absolute right-2 top-2 flex h-5 w-5 items-center justify-center rounded-full bg-blue-600 text-white sm:right-3 sm:top-3 sm:h-6 sm:w-6">
+
+                <fa-icon [icon]="faCheck" class="text-[9px] sm:text-xs">
+                </fa-icon>
+
+              </span>
+              }
+
+              <div class="mb-2 flex h-9 w-9 items-center justify-center rounded-xl bg-blue-50 sm:mb-3 sm:h-11 sm:w-11">
+
+                <img src="/images/card.png" alt="Credit Card" class="h-7 w-7 object-contain sm:h-8 sm:w-8" />
+
+              </div>
+
+              <p class="text-xs font-bold text-[#132e63] sm:text-sm">
+                Credit Card
+              </p>
+
+              <p class="mt-1 text-[10px] leading-4 text-slate-400 sm:text-[11px]">
+                Add Credit Card
+              </p>
+
+            </button>
+
+
+            <!-- CASH -->
+            <button type="button" (click)="selectAccount('cash')"
+              class="group relative min-h-[115px] rounded-2xl border p-3 text-left transition-all duration-200 hover:-translate-y-1 hover:shadow-lg sm:min-h-[125px] sm:p-4"
+              [class.border-blue-500]="selectedAccount === 'cash'" [class.bg-blue-50/40]="selectedAccount === 'cash'"
+              [class.shadow-md]="selectedAccount === 'cash'" [class.shadow-blue-100]="selectedAccount === 'cash'"
+              [class.border-slate-200]="selectedAccount !== 'cash'" [class.bg-white]="selectedAccount !== 'cash'"
+              [class.hover:border-blue-200]="selectedAccount !== 'cash'">
+
+              @if (selectedAccount === 'cash') {
+              <span
+                class="absolute right-2 top-2 flex h-5 w-5 items-center justify-center rounded-full bg-blue-600 text-white sm:right-3 sm:top-3 sm:h-6 sm:w-6">
+
+                <fa-icon [icon]="faCheck" class="text-[9px] sm:text-xs">
+                </fa-icon>
+
+              </span>
+              }
+
+              <div class="mb-2 flex h-9 w-9 items-center justify-center rounded-xl bg-blue-50 sm:mb-3 sm:h-11 sm:w-11">
+
+                <img src="/images/cash.png" alt="Cash" class="h-7 w-7 object-contain sm:h-8 sm:w-8" />
+
+              </div>
+
+              <p class="text-xs font-bold text-[#132e63] sm:text-sm">
+                Cash
+              </p>
+
+              <p class="mt-1 text-[10px] leading-4 text-slate-400 sm:text-[11px]">
+                Track your Cash
+              </p>
+
+            </button>
+
+
+            <!-- DIGITAL WALLET -->
+            <button type="button" (click)="selectAccount('digital-wallet')"
+              class="group relative min-h-[115px] rounded-2xl border p-3 text-left transition-all duration-200 hover:-translate-y-1 hover:shadow-lg sm:min-h-[125px] sm:p-4"
+              [class.border-blue-500]="selectedAccount === 'digital-wallet'"
+              [class.bg-blue-50/40]="selectedAccount === 'digital-wallet'"
+              [class.shadow-md]="selectedAccount === 'digital-wallet'"
+              [class.shadow-blue-100]="selectedAccount === 'digital-wallet'"
+              [class.border-slate-200]="selectedAccount !== 'digital-wallet'"
+              [class.bg-white]="selectedAccount !== 'digital-wallet'"
+              [class.hover:border-blue-200]="selectedAccount !== 'digital-wallet'">
+
+              @if (selectedAccount === 'digital-wallet') {
+              <span
+                class="absolute right-2 top-2 flex h-5 w-5 items-center justify-center rounded-full bg-blue-600 text-white sm:right-3 sm:top-3 sm:h-6 sm:w-6">
+
+                <fa-icon [icon]="faCheck" class="text-[9px] sm:text-xs">
+                </fa-icon>
+
+              </span>
+              }
+
+              <div class="mb-2 flex h-9 w-9 items-center justify-center rounded-xl bg-blue-50 sm:mb-3 sm:h-11 sm:w-11">
+
+                <img src="/images/wallet.png" alt="Digital Wallet" class="h-7 w-7 object-contain sm:h-8 sm:w-8" />
+
+              </div>
+
+              <p class="text-xs font-bold text-[#132e63] sm:text-sm">
+                Digital Wallet
+              </p>
+
+              <p class="mt-1 text-[10px] leading-4 text-slate-400 sm:text-[11px]">
+                Add your Wallet
+              </p>
+
+            </button>
+
+          </div>
+
+
+          <!-- ================================================= -->
+          <!-- ACCOUNT DETAILS FORM -->
+          <!-- ================================================= -->
+
+          <form [formGroup]="accountForm" class="mt-4 sm:mt-5">
+
+            <div
+              class="overflow-hidden rounded-2xl border border-blue-100 bg-white shadow-[0_12px_40px_rgba(30,90,180,0.07)]">
+
+
+              <!-- DETAILS HEADER -->
+              <div class="flex items-center gap-3 border-b border-slate-100 px-4 py-3.5 sm:px-7 sm:py-4">
+
+                <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-blue-50 sm:h-10 sm:w-10">
+
+                  <img [src]="
+                                    selectedAccount === 'bank'
+                                        ? '/images/bank.png'
+                                        : selectedAccount === 'credit-card'
+                                        ? '/images/card.png'
+                                        : selectedAccount === 'cash'
+                                        ? '/images/cash.png'
+                                        : '/images/wallet.png'
+                                " alt="Account type" class="h-6 w-6 object-contain sm:h-7 sm:w-7" />
+
+                </div>
+
+
+                <div class="min-w-0">
+
+                  <h3 class="truncate text-sm font-bold text-[#122c60] sm:text-lg">
+
+                    {{
+                    selectedAccount === 'bank'
+                    ? 'Bank Account Details'
+                    : selectedAccount === 'credit-card'
+                    ? 'Credit Card Details'
+                    : selectedAccount === 'cash'
+                    ? 'Cash Details'
+                    : 'Digital Wallet Details'
+                    }}
+
+                  </h3>
+
+                  <p class="text-[11px] leading-4 text-slate-400 sm:text-sm">
+
+                    Enter your
+                    {{
+                    selectedAccount === 'bank'
+                    ? 'bank account'
+                    : selectedAccount === 'credit-card'
+                    ? 'credit card'
+                    : selectedAccount === 'cash'
+                    ? 'cash'
+                    : 'digital-wallet'
+                    }}
+                    information
+
+                  </p>
+
+                </div>
+
+              </div>
+
+
+              <!-- FORM CONTENT -->
+              <div class="p-4 sm:p-7">
+
+
+                <!-- BANK -->
+                @if (selectedAccount === 'bank') {
+
+                <div class="mt-2 grid grid-cols-1 gap-4 sm:mt-5 sm:gap-5 md:grid-cols-2">
+
+                  <div>
+
+                    <label class="mb-2 block text-sm font-semibold text-[#17366e]">
+                      Account Name
+                    </label>
+
+                    <input type="text" formControlName="accountName" placeholder="Enter the account name"
+                      class="h-11 w-full rounded-xl border border-slate-200 bg-[#f5f9ff] px-4 text-sm outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-100 sm:h-12"
+                      [class.border-red-500]="isFieldInvalid('accountName')" />
+                    @if(isFieldInvalid('accountName')){
+                    <p class="mt-1 text-sm text-red-500"> Account name is required. </p>
+                    }
+
+                  </div>
+
+
+                  <div>
+
+                    <label class="mb-2 block text-sm font-semibold text-[#17366e]">
+                      Account Type
+                    </label>
+
+                    <select formControlName="bankAccountType" [class.border-red-500]="isFieldInvalid('bankAccountType')"
+                      class="h-11 w-full rounded-xl border border-slate-200 bg-[#f5f9ff] px-4 text-sm text-slate-600 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-100 sm:h-12">
+
+                      <option value="">
+                        Select Account Type
+                      </option>
+
+                      <option value="savings">
+                        Savings Account
+                      </option>
+
+                      <option value="salary">
+                        Salary Account
+                      </option>
+
+                      <option value="current">
+                        Current Account
+                      </option>
+
+                    </select>
+                    @if(isFieldInvalid('bankAccountType')){
+                    <p class="mt-1 text-sm text-red-500">select the account type. </p>
+                    }
+                  </div>
+
+
+                  <div>
+
+                    <label class="mb-2 block text-sm font-semibold text-[#17366e]">
+                      Bank Name
+                    </label>
+
+                    <select formControlName="bankName" [class.border-red-500]="isFieldInvalid('bankName')"
+                      class="h-11 w-full rounded-xl border border-slate-200 bg-[#f5f9ff] px-4 text-sm text-slate-600 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-100 sm:h-12">
+
+                      <option value="">
+                        Select your bank
+                      </option>
+
+                      <option value="fed">
+                        Federal Bank
+                      </option>
+
+                      <option value="icici">
+                        ICICI Bank
+                      </option>
+
+                      <option value="iob">
+                        Indian Overseas Bank
+                      </option>
+
+                    </select>
+                    @if(isFieldInvalid('bankName')){
+                    <p class="mt-1 text-sm text-red-500">select a bank </p>
+                    }
+                  </div>
+
+
+                  <div>
+
+                    <label class="mb-2 block text-sm font-semibold text-[#17366e]">
+                      Current Balance
+                    </label>
+
+                    <div class="relative">
+
+                      <span class="absolute left-4 top-1/2 -translate-y-1/2 font-semibold text-slate-400">
+                        ₹
+                      </span>
+
+                      <input type="number" formControlName="balance" placeholder="0.00"
+                        [class.border-red-500]="isFieldInvalid('balance')"
+                        class="h-11 w-full rounded-xl border border-slate-200 bg-[#f5f9ff] pl-9 pr-4 text-sm outline-none focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-100 sm:h-12" />
+
+                    </div>
+                    @if(isFieldInvalid('balance') && accountForm.get('balance')?.hasError('required')){
+                    <p class="mt-1 text-sm text-red-500">Balance is required. </p>
+                    }
+                    @if(isFieldInvalid('balance') && accountForm.get('balance')?.hasError('min')){
+                    <p class="mt-1 text-sm text-red-500">Balance cannot be negative. </p>
+                    }
+
+                  </div>
+
+                </div>
+
+                }
+
+
+                <!-- CREDIT CARD -->
+                @if (selectedAccount === 'credit-card') {
+
+                <div class="mt-2 grid grid-cols-1 gap-4 sm:mt-5 sm:gap-5 md:grid-cols-2">
+
+                  <div>
+
+                    <label class="mb-2 block text-sm font-semibold text-[#17366e]">
+                      Card Name
+                    </label>
+
+                    <input type="text" formControlName="accountName" placeholder="e.g. ICICI Amazon Pay"
+                      [class.border-red-500]="isFieldInvalid('accountName')"
+                      class="h-11 w-full rounded-xl border border-slate-200 bg-[#f5f9ff] px-4 text-sm outline-none focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-100 sm:h-12" />
+                    @if(isFieldInvalid('accountName')){
+                    <p class="mt-1 text-sm text-red-500">Card Name is required</p>
+                    }
+
+                  </div>
+
+
+                  <div>
+
+                    <label class="mb-2 block text-sm font-semibold text-[#17366e]">
+                      Bank Name
+                    </label>
+
+                    <select formControlName="bankName" [class.border-red-500]="isFieldInvalid('bankName')"
+                      class="h-11 w-full rounded-xl border border-slate-200 bg-[#f5f9ff] px-4 text-sm text-slate-600 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-100 sm:h-12">
+
+                      <option value="">
+                        Select your bank
+                      </option>
+
+                      <option value="fed">
+                        Federal Bank
+                      </option>
+
+                      <option value="icici">
+                        ICICI Bank
+                      </option>
+
+                      <option value="iob">
+                        Indian Overseas Bank
+                      </option>
+
+                    </select>
+                    @if(isFieldInvalid('bankName')){
+                    <p class="mt-1 text-sm text-red-500">select a bank </p>
+                    }
+                  </div>
+
+
+                  <div>
+
+                    <label class="mb-2 block text-sm font-semibold text-[#17366e]">
+                      Credit Limit
+                    </label>
+
+                    <input type="number" formControlName="creditLimit" placeholder="₹ 1,00,000"
+                      [class.border-red-500]="isFieldInvalid('creditLimit')"
+                      class="h-11 w-full rounded-xl border border-slate-200 bg-[#f5f9ff] px-4 text-sm outline-none focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-100 sm:h-12" />
+                    @if(isFieldInvalid('creditLimit') && accountForm.get('creditLimit')?.hasError('required')){
+                    <p class="mt-1 text-sm text-red-500">Credit limit is required.</p>
+                    }
+                    @if(isFieldInvalid('creditLimit') && accountForm.get('creditLimit')?.hasError('min')){
+                    <p class="mt-1 text-sm text-red-500"> Credit limit cannot be negative.</p>
+                    }
+                  </div>
+
+
+                  <div>
+
+                    <label class="mb-2 block text-sm font-semibold text-[#17366e]">
+                      Current Outstanding
+                    </label>
+
+                    <input type="number" formControlName="currentOutstanding" placeholder="₹ 1,00,000"
+                      [class.border-red-500]="isFieldInvalid('currentOutstanding')"
+                      class="h-11 w-full rounded-xl border border-slate-200 bg-[#f5f9ff] px-4 text-sm outline-none focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-100 sm:h-12" />
+                    @if(isFieldInvalid('currentOutstanding') &&
+                    accountForm.get('currentOutstanding')?.hasError('required')){
+                    <p class="mt-1 text-sm text-red-500"> Current outstanding is required.</p>
+                    }
+                    @if(isFieldInvalid('currentOutstanding') && accountForm.get('currentOutstanding')?.hasError('min')){
+                    <p class="mt-1 text-sm text-red-500"> Current outstanding cannot be negative.</p>
+                    }
+                  </div>
+
+
+                  <div>
+
+                    <label class="mb-2 block text-sm font-semibold text-[#17366e]">
+                      Minimum Due Amount
+                    </label>
+
+                    <input type="number" formControlName="minimumAmountDue" placeholder="₹ 1,00,000"
+                      [class.border-red-500]="isFieldInvalid('minimumAmountDue')"
+                      class="h-11 w-full rounded-xl border border-slate-200 bg-[#f5f9ff] px-4 text-sm outline-none focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-100 sm:h-12" />
+                    @if(isFieldInvalid('minimumAmountDue') &&
+                    accountForm.get('minimumAmountDue')?.hasError('required')){
+                    <p class="mt-1 text-sm text-red-500"> Minimum Due Amount is required.</p>
+                    }
+                    @if(isFieldInvalid('minimumAmountDue') && accountForm.get('minimumAmountDue')?.hasError('min')){
+                    <p class="mt-1 text-sm text-red-500"> Minimum Due Amount cannot be negative.</p>
+                    }
+                  </div>
+
+
+                  <div>
+
+                    <label class="mb-2 block text-sm font-semibold text-[#17366e]">
+                      Payment Due Date
+                    </label>
+
+                    <input type="date" formControlName="paymentDueDate"
+                      [class.border-red-500]="isFieldInvalid('paymentDueDate')"
+                      class="h-11 w-full rounded-xl border border-slate-200 bg-[#f5f9ff] px-4 text-sm outline-none focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-100 sm:h-12" />
+                    @if(isFieldInvalid('paymentDueDate')){
+                    <p class="mt-1 text-sm text-red-500"> Payment due date is required.</p>
+                    }
+                  </div>
+
+                </div>
+
+                }
+
+
+                <!-- CASH -->
+                @if (selectedAccount === 'cash') {
+
+                <div class="mt-2 grid grid-cols-1 gap-4 sm:mt-5 sm:gap-5 md:grid-cols-2">
+
+                  <div>
+
+                    <label class="mb-2 block text-sm font-semibold text-[#17366e]">
+                      Account Name
+                    </label>
+
+                    <input type="text" formControlName="accountName" placeholder="Enter the account name"
+                      [class.border-red-500]="isFieldInvalid('accountName')"
+                      class="h-11 w-full rounded-xl border border-slate-200 bg-[#f5f9ff] px-4 text-sm outline-none focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-100 sm:h-12" />
+                    @if(isFieldInvalid('accountName')){
+                    <p class="mt-1 text-sm text-red-500"> Account name is required. </p>
+                    }
+                  </div>
+
+
+                  <div>
+
+                    <label class="mb-2 block text-sm font-semibold text-[#17366e]">
+                      Current Balance
+                    </label>
+
+                    <div class="relative">
+
+                      <span class="absolute left-4 top-1/2 -translate-y-1/2 font-semibold text-slate-400">
+                        ₹
+                      </span>
+
+                      <input type="number" formControlName="balance" placeholder="0.00"
+                        [class.border-red-500]="isFieldInvalid('balance')"
+                        class="h-11 w-full rounded-xl border border-slate-200 bg-[#f5f9ff] pl-9 pr-4 text-sm outline-none focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-100 sm:h-12" />
+
+                    </div>
+                    @if(isFieldInvalid('balance') && accountForm.get('balance')?.hasError('required')){
+                    <p class="mt-1 text-sm text-red-500">Balance is required. </p>
+                    }
+                    @if(isFieldInvalid('balance') && accountForm.get('balance')?.hasError('min')){
+                    <p class="mt-1 text-sm text-red-500">Balance cannot be negative. </p>
+                    }
+
+                  </div>
+
+                </div>
+
+                }
+
+
+                <!-- DIGITAL WALLET -->
+                @if (selectedAccount === 'digital-wallet') {
+
+                <div class="mt-2 grid grid-cols-1 gap-4 sm:mt-5 sm:gap-5 md:grid-cols-2">
+
+                  <div>
+
+                    <label class="mb-2 block text-sm font-semibold text-[#17366e]">
+                      Wallet Provider
+                    </label>
+
+                    <select formControlName="accountName" [class.border-red-500]="isFieldInvalid('accountName')"
+                      class="h-11 w-full rounded-xl border border-slate-200 bg-[#f5f9ff] px-4 text-sm outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-100 sm:h-12">
+
+                      <option value="">
+                        Select wallet
+                      </option>
+
+                      <option value="paytm">
+                        Paytm
+                      </option>
+
+                      <option value="amazon-pay">
+                        Amazon Pay
+                      </option>
+
+                    </select>
+                    @if(isFieldInvalid('accountName')){
+                    <p class="mt-1 text-sm text-red-500">select a wallet provider </p>
+                    }
+                  </div>
+
+
+                  <div>
+
+                    <label class="mb-2 block text-sm font-semibold text-[#17366e]">
+                      Current Balance
+                    </label>
+
+                    <div class="relative">
+
+                      <span class="absolute left-4 top-1/2 -translate-y-1/2 font-semibold text-slate-400">
+                        ₹
+                      </span>
+
+                      <input type="number" formControlName="balance" placeholder="0.00"
+                        [class.border-red-500]="isFieldInvalid('balance')"
+                        class="h-11 w-full rounded-xl border border-slate-200 bg-[#f5f9ff] pl-9 pr-4 text-sm outline-none focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-100 sm:h-12" />
+
+                    </div>
+                    @if(isFieldInvalid('balance') && accountForm.get('balance')?.hasError('required')){
+                    <p class="mt-1 text-sm text-red-500">Balance is required. </p>
+                    }
+                    @if(isFieldInvalid('balance') && accountForm.get('balance')?.hasError('min')){
+                    <p class="mt-1 text-sm text-red-500">Balance cannot be negative. </p>
+                    }
+                  </div>
+
+                </div>
+
+                }
+
+
+                <!-- INFO -->
+                <div class="mt-5 flex items-center gap-2 text-xs text-blue-500 sm:mt-6 sm:text-sm">
+
+                  <span class="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-blue-100 font-bold">
+                    i
+                  </span>
+
+                  <span>
+                    You can add more accounts anytime.
+                  </span>
+
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <!-- ================================================= -->
+            <!-- NAVIGATION -->
+            <!-- ================================================= -->
+
+            <div class="mt-6 flex flex-col gap-3 sm:mt-8 sm:flex-row sm:justify-center sm:gap-4">
+
+
+              <!-- Previous -->
+              <button type="button" (click)="previous()"
+                class="group flex h-11 w-full items-center justify-center gap-2.5 rounded-xl border border-slate-200 bg-white px-5 text-base font-semibold text-[#102a68] shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-slate-300 hover:bg-slate-50 hover:shadow-md active:translate-y-0 sm:w-[300px]">
+
+                <span
+                  class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-slate-100 text-slate-600 transition-all duration-300 group-hover:-translate-x-1 group-hover:bg-blue-50 group-hover:text-blue-600">
+
+                  <fa-icon [icon]="faArrowLeft" class="text-sm">
+                  </fa-icon>
+
+                </span>
+
+                <span>
+                  Previous
+                </span>
+
+              </button>
+
+
+              <!-- Next -->
+              <button type="button" [disabled]="accountForm.invalid" (click)="saveAccount()" class="group flex h-11 w-[300px] items-center justify-center gap-2.5 rounded-xl
+         bg-gradient-to-r from-blue-600 to-blue-500 px-5 text-base font-semibold text-white
+         shadow-lg shadow-blue-200
+         transition-all duration-300
+         hover:-translate-y-0.5 hover:shadow-xl
+         active:translate-y-0
+         disabled:cursor-not-allowed
+         disabled:opacity-50
+         disabled:shadow-none
+         disabled:hover:translate-y-0
+         disabled:hover:shadow-none">
+
+                <span>Next</span>
+
+                <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-white/15
+           transition-transform duration-300 group-hover:translate-x-1">
+
+                  <fa-icon [icon]="faArrowRight" class="text-sm"></fa-icon>
+
+                </span>
+
+              </button>
+
+            </div>
+
+          </form>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    }
+
+
+    <!-- ========================================================= -->
+    <!-- SECTION 3 : FINISH -->
+    <!-- ========================================================= -->
+
+    @if (currentSection === 3) {
+
+    <section id="section-3">
+
+      <div class="flex justify-center">
+
+        <div class="items-center">
+
+          <!-- Wallet Logo -->
+          <div class="flex items-center justify-center">
+            <img src="/images/my-wallet-logo.png" alt="My Wallet Logo" class="h-10 object-contain" />
+          </div>
+
+
+          <!-- Wallet Title -->
+          <div class="flex items-center justify-center">
+            <img src="/images/my-wallet-title.png" alt="My Wallet Title" class="h-10 object-contain" />
+          </div>
+
+
+          <!-- Finish Image -->
+          <div class="flex items-center justify-center max-w-[500px]">
+
+            <img src="/images/onboarding_finish.png" alt="My Wallet Setup Complete" class="object-contain" />
+
+          </div>
+
+
+          <!-- Finish Text -->
+          <div class="text-center justify-center mt-2">
+
+            <p class="font-jakarta font-bold text-[#123F91] text-xl">
+              You’re All Set!
+            </p>
+
+            <span class="font-jakarta font-bold text-[#1685F5]">
+              Your My Wallet is ready to go
+            </span>
+
+            <p class="mx-auto max-w-[460px] text-center text-base leading-7 text-slate-500 sm:text-m">
+              Your wallet setup is complete. Start adding transactions, track your spending, manage your accounts, and
+              stay on top of your financial goals
+            </p>
+
+          </div>
+
+
+          <!-- Dashboard Button -->
+          <div class="mt-3 flex justify-center gap-4">
+
+            <button type="button" (click)="completeOnboarding()"
+              class="group flex h-11 w-[300px] items-center justify-center gap-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-blue-500 px-5 text-base font-semibold text-white shadow-lg shadow-blue-200 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl active:translate-y-0">
+
+              <span>
+                Go to Dashboard
+              </span>
+
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    }
+
+  </div>
+
+</div>

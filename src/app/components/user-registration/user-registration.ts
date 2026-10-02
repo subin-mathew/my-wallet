@@ -78,7 +78,7 @@ export class UserRegistration {
       const userProfile = await this.authService.userRegistration(this.fullName.value.trim(), this.email.value.trim(), this.password.value);
       console.log("Registration Successful : ", userProfile);
       this.successMessage = "User Created Successfully";
-      await this.route.navigate(['/signin']);
+      await this.route.navigate(['/login']);
     } catch (error) {
       console.log("Account Creation Error : ", error);
       this.errorMessage = "Account Creation Error";

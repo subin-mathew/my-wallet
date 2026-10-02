@@ -25,8 +25,8 @@ export class Login {
 
   //Login Form
   protected readonly loginForm = this.formBuilder.nonNullable.group({
-    email: ['', [ Validators.required, Validators.email]],
-    password: ['', [ Validators.required, Validators.minLength(6)]]
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', [Validators.required, Validators.minLength(6)]]
   });
 
   //Form Controls
@@ -39,72 +39,88 @@ export class Login {
   }
 
   //Toggle Password
-   protected togglePassword(): void {
+  protected togglePassword(): void {
     this.showPassword = !this.showPassword;
   }
 
   //Email & Password Login
-  protected async login(): Promise<void>{
+  protected async login(): Promise<void> {
 
     //Clear Previous Error Messages
     this.errorMessage = '';
     this.successMessage = '';
 
     //Validate the Form
-    if(this.loginForm.invalid){
+    if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
       return;
     }
 
     this.isLoading.set(true);
-
-    const {email, password} = this.loginForm.getRawValue();
+    const { email, password } = this.loginForm.getRawValue();
 
     try {
-        await this.authService.loginWithEmail(email, password);
-        this.successMessage = 'Successfully Signed In';
-        console.log(this.successMessage);
-    } catch(error:unknown) {
-        console.error('Email Authentication Error', error);
-        this.errorMessage = this.getFirebaseErrorMessage(error);
+      const firebaseUser = await this.authService.loginWithEmail(email, password);
+      const userProfile = await this.authService.getUserProfile(firebaseUser.uid);
+      if (!userProfile) {
+        this.errorMessage = 'User profile not found. Please contact support.';
+        return;
+      }
+      this.successMessage = 'Successfully Signed In';
+      console.log(this.successMessage);
+      
+      if (userProfile.isProfileCompleted) {
+        await this.router.navigate(['/home']);
+      } else {
+        await this.router.navigate(['/onboarding']);
+      }
+    } catch (error: unknown) {
+      console.error('Email Authentication Error', error);
+      this.errorMessage = this.getFirebaseErrorMessage(error);
     } finally {
-       this.isLoading.set(false);
+      this.isLoading.set(false);
     }
   }
 
   //Google Sign In Code
   async loginWithGoogle(): Promise<void> {
 
-      this.isGoogleLoading.set(true);
-
-      //Clear Previous Error Messages
-      this.errorMessage = '';
-      this.successMessage = '';
+    this.isGoogleLoading.set(true);
+    //Clear Previous Error Messages
+    this.errorMessage = '';
+    this.successMessage = '';
 
     try {
 
-      await this.authService.loginWithGoogle();
+      const firebaseUser = await this.authService.loginWithGoogle();
       console.log('login Successful');
+      const userProfile = await this.authService.getUserProfile(firebaseUser.uid);
+      if (!userProfile) {
+        this.errorMessage = 'User profile not found. Please contact support.';
+        return;
+      }
 
-    } catch(error:unknown) {
+      if (userProfile.isProfileCompleted) {
+        await this.router.navigate(['/home']);
+      } else {
+        await this.router.navigate(['/onboarding']);
+      }
 
+    } catch (error: unknown) {
       console.error('Google Sign In Error', error);
       this.errorMessage = this.getFirebaseErrorMessage(error);
-
     } finally {
-
       this.isGoogleLoading.set(false);
-
     }
   }
 
   //Forgot Password Page Navigation
-  protected forgotPassword():void {
+  protected forgotPassword(): void {
     this.router.navigate(['/forgot-password']);
   }
 
   //Create Account Page Navigation
-   protected createAccount():void {
+  protected createAccount(): void {
     this.router.navigate(['/signup']);
   }
 
