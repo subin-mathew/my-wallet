@@ -49,7 +49,6 @@ export class AuthService {
         currency: '',
         country: '',
         isProfileCompleted: false,
-        hasAccount: false,
         lastLoginAt: now,
         createdAt: now,
         updatedAt: now
@@ -89,7 +88,6 @@ export class AuthService {
       currency: '',
       country: '',
       isProfileCompleted: false,
-      hasAccount: false,
       lastLoginAt: null,
       createdAt: now,
       updatedAt: now

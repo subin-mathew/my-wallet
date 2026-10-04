@@ -19,6 +19,9 @@ import { AccountService } from '../../services/account-service';
 import { Timestamp } from 'firebase/firestore';
 import { Account } from '../../models/account';
 import { Router } from '@angular/router';
+import { toast } from 'ngx-sonner';
+import { ErrorMessages, SuccessMessages } from '../../utils/enums';
+import { CurrencyUtils } from '../../utils/currency-utils';
 
 @Component({
   selector: 'app-onboarding',
@@ -109,55 +112,26 @@ export class Onboarding {
     this.updateAccountValidators();
   }
 
-
-  // -------------------------------------------------- 
   // Navigation 
-  // -------------------------------------------------- 
-
   previous(): void {
-
     if (this.currentSection > 0) {
       this.currentSection--;
     }
-
   }
 
   next(): void {
-    console.log("calling next method");
-    console.log(this.currentSection);
-
     this.currentSection++;
-    console.log(this.currentSection);
   }
 
-
-
-  // -------------------------------------------------- 
   // Currency Selection 
-  // -------------------------------------------------- 
-
   selectCurrency(currency: string, country: string): void {
-
     this.selectedCurrency = currency;
     this.selectedCountry = country;
-
-    console.log(this.selectedCurrency)
-    console.log(this.selectedCountry);
-
   }
 
   // Account Selection 
   selectAccount(type: string): void {
-    // Update selected account type
     this.selectedAccount = type;
-
-    // // Reset interaction state for all fields
-    // Object.keys(this.accountForm.controls).forEach(fieldName => {
-    //   const control = this.accountForm.get(fieldName);
-
-    //   control?.markAsUntouched();
-    //   control?.markAsPristine();
-    // });
     // Reset all form values and validation states
     this.accountForm.reset({
       accountName: '',
@@ -179,7 +153,7 @@ export class Onboarding {
     const user = this.authService.getCurrentUser();
 
     if (!user) {
-      console.error('No authenticated user found. Currency was not saved.');
+      toast.error(ErrorMessages.SESSION_TIMEOUT);
       return false;
     }
 
@@ -190,10 +164,10 @@ export class Onboarding {
         this.selectedCountry
       );
       this.next();
-      console.log('Currency saved successfully.');
+      toast.success(SuccessMessages.CURRENCY);
       return true;
     } catch (error) {
-      console.error('Error saving currency:', error);
+      toast.error(ErrorMessages.CURRENCY_FAILED);
       return false;
     }
 
@@ -201,12 +175,7 @@ export class Onboarding {
 
   isFieldInvalid(fieldName: string): boolean {
     const control = this.accountForm.get(fieldName);
-
-    return !!(
-      control &&
-      control.invalid &&
-      (control.touched || control.dirty)
-    );
+    return !!( control && control.invalid && (control.touched || control.dirty) );
   }
 
 
@@ -217,36 +186,32 @@ export class Onboarding {
     }
 
     const user = this.authService.getCurrentUser();
-    console.log(user);
-
     if (!user) {
-      console.error('User is not logged in');
+      toast.error(ErrorMessages.SESSION_TIMEOUT);
       return;
     }
 
     const account = this.buildAccount(this.accountForm.value);
     try {
       const accountId = this.accountService.addAccount(user.uid, account);
-      console.log(accountId);
       if (!accountId) {
-        console.error('Account creation failed: no account ID returned');
+        toast.error(ErrorMessages.SESSION_TIMEOUT);
         return;
       }
-      console.log('Moving to next section...');
+      toast.success(SuccessMessages.ACCOUNT_SUCCESS);
       this.currentSection++;
     } catch (error) {
-      console.error('Failed to create account:', error);
+      toast.error(ErrorMessages.ACCOUNT_FAILED);
     }
   }
 
   private buildAccount(accountFormValue: any): any {
 
     const now = Timestamp.now();
-
     const account: Account = {
       accountName: accountFormValue.accountName,
       accountType: this.selectedAccount,
-      balanceMinor: accountFormValue.balance,
+      balanceMinor: CurrencyUtils.toAmountMinor(accountFormValue.balance,2),
       isActive: true,
       createdAt: now,
       updatedAt: now
@@ -261,11 +226,11 @@ export class Onboarding {
     //Credit Card 
     if (this.selectedAccount === 'credit-card') {
       account.bankName = accountFormValue.bankName;
-      account.creditLimitMinor = accountFormValue.creditLimit;
-      account.currentOutstandingMinor = accountFormValue.currentOutstanding;
-      account.minimumAmountDueMinor = accountFormValue.minimumAmountDue;
+      account.creditLimitMinor = CurrencyUtils.toAmountMinor(accountFormValue.creditLimit,2);
+      account.currentOutstandingMinor = CurrencyUtils.toAmountMinor(accountFormValue.currentOutstanding,2);
+      account.minimumAmountDueMinor = CurrencyUtils.toAmountMinor(accountFormValue.minimumAmountDue,2);
       account.paymentDueDate = accountFormValue.paymentDueDate;
-      account.balanceMinor = 0;
+      account.balanceMinor = CurrencyUtils.toAmountMinor((accountFormValue.creditLimit-accountFormValue.currentOutstanding),2);
     }
 
     return account;
@@ -276,7 +241,6 @@ export class Onboarding {
     // Step 1: Clear validators from all fields
     Object.keys(this.accountForm.controls).forEach(fieldName => {
       const control = this.accountForm.get(fieldName);
-
       control?.clearValidators();
       control?.setErrors(null);
     });
@@ -378,7 +342,7 @@ export class Onboarding {
     const user = this.authService.getCurrentUser();
 
     if (!user) {
-      console.error('No authenticated user found. Currency was not saved.');
+      toast.error(ErrorMessages.SESSION_TIMEOUT);
       return false;
     }
 
@@ -388,16 +352,15 @@ export class Onboarding {
 
       if (profileCompleteFlag) {
         await this.router.navigate(['/home']);
-        console.log('Profile completed successfully.');
+        toast.success(SuccessMessages.ONBOARDING_SUCCESS);
         return true;
       } else {
+        toast.error(ErrorMessages.ONBOARDING_FAILED);
         return false;
       }
-
     } catch (error) {
-      console.error('Error saving currency:', error);
+      toast.error(ErrorMessages.ONBOARDING_FAILED);
       return false;
-    }
-
+    } 
   }
 } 

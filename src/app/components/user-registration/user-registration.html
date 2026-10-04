@@ -35,7 +35,7 @@
      
         <!-- Full Name -->
       <div>
-        <label for="fullName" class="mb-2 block text-[14px] font-semibold text-slate-800" >Name</label>
+        <label for="fullName" class="mb-2 block text-[14px] font-semibold text-slate-800" >Name<span class="text-red-500">*</span></label>
         <div class="relative">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.5 20.25a8.25 8.25 0 0 1 15 0" />
@@ -45,27 +45,30 @@
         </div>
 
         @if ( fullName.invalid && fullName.touched ) {
-          <p class="mt-2 text-xs text-red-500"> Please enter your full name. </p>
+          <p class="mt-2 text-xs text-red-500">{{validationMessages.NAME}}</p>
         }
       </div>
 
       <!-- Email -->
       <div>
-        <label for="email" class="mb-2 block text-[14px] font-semibold text-slate-800" > Email Address </label>
+        <label for="email" class="mb-2 block text-[14px] font-semibold text-slate-800" > Email Address <span class="text-red-500">*</span> </label>
         <div class="relative">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400">
             <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25H4.5a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0-8.69 5.8a2.25 2.25 0 0 1-2.12 0L2.25 6.75" /> 
           </svg>
           <input id="email" type="email" formControlName="email" autocomplete="email" placeholder="Enter your email" class="h-14 w-full rounded-lg border bg-white pl-12 pr-4 text-[15px] text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10" [class.border-red-400]=" email.invalid && email.touched " />
         </div>
-        @if ( email.invalid && email.touched ) {
-          <p class="mt-2 text-xs text-red-500"> Please enter a valid email address. </p>
+       @if (email.touched && email.hasError('required')) {
+          <p class="mt-2 text-xs text-red-500">{{validationMessages.EMAIL}}</p>
+        }
+        @if(email.touched && email.hasError('email')){
+            <p class="mt-2 text-xs text-red-500">{{validationMessages.INVALID_EMAIL}}</p>
         }
       </div>
 
       <!-- Password -->
       <div>
-        <label for="password" class="mb-2 block text-[14px] font-semibold text-slate-800" > Password </label>
+        <label for="password" class="mb-2 block text-[14px] font-semibold text-slate-800" > Password <span class="text-red-500">*</span> </label>
         <div class="relative">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400">
             <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 0 0-9 0v3.75m-.75 0h10.5A2.25 2.25 0 0 1 19.5 12.75v6A2.25 2.25 0 0 1 17.25 21H6.75A2.25 2.25 0 0 1 4.5 18.75v-6A2.25 2.25 0 0 1 6.75 10.5Z" /> 
@@ -87,16 +90,22 @@
           </button>
         </div>
         <p class="mt-1 text-[9px] text-slate-400" > Use 8+ characters with a mix of letters, numbers & symbols. </p>
+         @if (password.touched && password.hasError('required')) {
+          <p class="mt-2 text-xs text-red-500">{{validationMessages.PASSWORD}}</p>
+        }
       </div>
 
       <!-- Confirm Password -->
       <div>
-        <label for="confirmPassword" class="mb-2 block text-[14px] font-semibold text-slate-800" > Confirm Password </label>
+        <label for="confirmPassword" class="mb-2 block text-[14px] font-semibold text-slate-800" > Confirm Password <span class="text-red-500">*</span></label>
         <div class="relative">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400">
             <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 0 0-9 0v3.75m-.75 0h10.5A2.25 2.25 0 0 1 19.5 12.75v6A2.25 2.25 0 0 1 17.25 21H6.75A2.25 2.25 0 0 1 4.5 18.75v-6A2.25 2.25 0 0 1 6.75 10.5Z" /> 
           </svg> 
           <input id="confirmPassword" [type]=" showConfirmPassword ? 'text' : 'password' " formControlName="confirmPassword" autocomplete="new-password" placeholder="Confirm your password" class="h-14 w-full rounded-lg border bg-white pl-12 pr-4 text-[15px] text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10" [class.border-red-400]=" confirmPassword.invalid && confirmPassword.touched " />
+          @if (confirmPassword.touched && confirmPassword.hasError('required')) {
+                        <p class="mt-2 text-xs text-red-500">{{validationMessages.CONFIRM_PASSWORD}}</p>
+                     }
           <button type="button" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600" (click)=" showConfirmPassword = !showConfirmPassword " >
           
             @if (showConfirmPassword) {
@@ -115,9 +124,9 @@
           </button>
         </div>
 
-
+ 
         @if ( confirmPassword.touched && password.value !== confirmPassword.value ) {
-          <p class="mt-2 text-xs text-red-500"> Passwords do not match. </p>
+          <p class="mt-2 text-xs text-red-500"> {{validationMessages.PASSWORD_MATCHING}} </p>
         }
 
       </div>
@@ -132,7 +141,7 @@
       </div>
 
       <!-- Create Account -->
-      <button type="submit" [disabled]=" isLoading || registrationForm.invalid " class="flex h-[52px] w-full items-center justify-center rounded-lg bg-blue-600 text-[15px] font-semibold text-white shadow-[0_6px_18px_rgba(37,99,235,0.20)] transition hover:bg-blue-700 active:scale-[0.99] disabled:cursor-not-allowed disabled:bg-blue-300" >
+      <button type="submit" [disabled]=" isLoading || registrationForm.invalid "class="group flex h-11 w-full items-center justify-center gap-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-blue-500 px-5 text-base font-semibold text-white shadow-lg shadow-blue-200 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-50 disabled:shadow-none disabled:hover:translate-y-0 disabled:hover:shadow-none" >
         @if (isLoading) {
           <span class="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white"></span>
           Creating account...
@@ -153,7 +162,7 @@
 
 
     <!-- Google -->
-    <button type="button" [disabled]="isGoogleLoading" (click)="registerWithGoogle()" class="flex h-14 w-full items-center justify-center gap-3 rounded-lg border border-slate-300 bg-white text-[15px] font-semibold text-slate-800 transition hover:border-slate-400 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-60" >
+    <button type="button" [disabled]="isGoogleLoading" (click)="registerWithGoogle()" class="group flex h-11 w-full items-center justify-center gap-2.5 rounded-xl border border-slate-200 bg-white px-5 text-base font-semibold text-[#102a68] shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-slate-300 hover:bg-slate-50 hover:shadow-md active:translate-y-0" >
 
       <!-- Google G -->
       <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" >

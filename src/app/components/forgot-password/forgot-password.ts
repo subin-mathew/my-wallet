@@ -2,6 +2,8 @@ import { Component, inject, signal } from '@angular/core';
 import { AuthService } from '../../services/auth-service';
 import { Router } from '@angular/router';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ErrorMessages, SuccessMessages, ValidationMessages } from '../../utils/enums';
+import { toast } from 'ngx-sonner';
 
 @Component({
   selector: 'app-forgot-password',
@@ -15,6 +17,7 @@ export class ForgotPassword {
 
   //Component State
   protected readonly isLoading = signal(false);
+  readonly validationMessages = ValidationMessages;
   email = '';
   successMessage = '';
   errorMessage = '';
@@ -45,15 +48,14 @@ export class ForgotPassword {
     }
 
     this.isLoading.set(true);
-
     const { email } = this.passwordResetForm.getRawValue();
-
     try {
       await this.authService.forgotPassword(email);
-      this.successMessage = 'Successfully Send the Password Reset Link '
+      this.successMessage = SuccessMessages.PASSWORD_RESET_LINK;
+      toast.success(this.successMessage);
     } catch(error: unknown) {
-      console.log('Error to Send the Password Reset Link');
-      this.errorMessage = 'Error Occured';
+      this.errorMessage = ErrorMessages.PASSWORD_RESET_LINK_FAILED;
+      toast.error(this.errorMessage)
     } finally{
       this.isLoading.set(false);
     }

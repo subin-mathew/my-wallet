@@ -43,7 +43,7 @@
             <form  [formGroup] = "loginForm" (ngSubmit)="login()" novalidate class="mt-5 space-y-3">
                 <!-- EMAIL -->
                 <div class="mb-6">
-                    <label for="email" class="mb-2 block text-[14px] font-semibold text-slate-800">Email Address</label>
+                    <label for="email" class="mb-2 block text-[14px] font-semibold text-slate-800">Email Address<span class="text-red-500">*</span></label>
                     <div class="relative">
                         <!-- Email Icon -->
                         <svg class="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400"
@@ -59,10 +59,10 @@
                             [class.border-slate]="!(emailControl.invalid && emailControl.touched)" />
                     </div>
                     @if (emailControl.touched && emailControl.hasError('required')) {
-                        <p class="mt-2 text-xs text-red-500">Email address is required.</p>
+                        <p class="mt-2 text-xs text-red-500">{{validationMessages.EMAIL}}</p>
                     }
                     @if(emailControl.touched && emailControl.hasError('email')){
-                        <p class="mt-2 text-xs text-red-500">Please enter a valid email address.</p>
+                        <p class="mt-2 text-xs text-red-500">{{validationMessages.INVALID_EMAIL}}</p>
                     }
 
                 </div>
@@ -70,7 +70,7 @@
                 <!-- PASSWORD -->
                 <div class="mb-7">
                     <div class="mb-2 flex items-center justify-between">
-                        <label for="password" class="text-[14px] font-semibold text-slate-800">Password</label>
+                        <label for="password" class="text-[14px] font-semibold text-slate-800">Password<span class="text-red-500">*</span></label>
                         <button type="button" class="text-[13px] font-medium text-blue-600 hover:text-blue-700 hover:underline" (click)="forgotPassword()"> Forgot password? </button>
                     </div>
                     <div class="relative">
@@ -114,15 +114,15 @@
                     </div>
                    
                     @if (passwordControl.touched && passwordControl.hasError('required')) {
-                        <p class="mt-2 text-xs text-red-500">Password is required.</p>
+                        <p class="mt-2 text-xs text-red-500">{{validationMessages.PASSWORD}}</p>
                      }
                     @if (passwordControl.touched && passwordControl.hasError('minlength')) {
-                        <p class="mt-2 text-xs text-red-500">Password must be at least 6 characters.</p>
+                        <p class="mt-2 text-xs text-red-500">{{validationMessages.PASSWORD_MIN_LENGTH}}</p>
                     }
                 </div>
 
                 <!-- SIGN IN -->
-                <button type="submit" [disabled]="isLoading()" class="flex h-[52px] w-full items-center justify-center rounded-lg bg-blue-600 text-[15px] font-semibold text-white shadow-[0_6px_18px_rgba(37,99,235,0.20)] transition hover:bg-blue-700 active:scale-[0.99] disabled:cursor-not-allowed disabled:bg-blue-300">
+                <button type="submit" [disabled]="isLoading()"  [disabled]="loginForm.invalid" class="flex h-[52px] w-full items-center justify-center rounded-lg bg-blue-600 text-[15px] font-semibold text-white shadow-[0_6px_18px_rgba(37,99,235,0.20)] transition hover:bg-blue-700 active:scale-[0.99] disabled:cursor-not-allowed disabled:bg-blue-300">
                     @if (isLoading()) {
                     <span class="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white"></span>
                     Signing in...

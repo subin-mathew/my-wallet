@@ -15,7 +15,6 @@ export interface UserProfile {
     country?: string;
 
     isProfileCompleted: boolean;
-    hasAccount: false;
 
     lastLoginAt?: Timestamp | null;
     createdAt: Timestamp;

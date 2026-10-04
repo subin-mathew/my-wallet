@@ -2,6 +2,8 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth-service';
 import { Router } from '@angular/router';
+import { ErrorMessages, SuccessMessages, ValidationMessages } from '../../utils/enums';
+import { toast } from 'ngx-sonner';
 
 @Component({
   selector: 'app-user-registration',
@@ -14,6 +16,7 @@ export class UserRegistration {
   private readonly formBuilder = inject(FormBuilder);
   private readonly authService = inject(AuthService);
   private readonly route = inject(Router);
+  readonly validationMessages = ValidationMessages;
 
   //Messages
   errorMessage = '';
@@ -76,12 +79,12 @@ export class UserRegistration {
 
     try {
       const userProfile = await this.authService.userRegistration(this.fullName.value.trim(), this.email.value.trim(), this.password.value);
-      console.log("Registration Successful : ", userProfile);
-      this.successMessage = "User Created Successfully";
+      this.successMessage = SuccessMessages.SIGN_UP;
+      toast.success(this.successMessage);
       await this.route.navigate(['/login']);
     } catch (error) {
-      console.log("Account Creation Error : ", error);
-      this.errorMessage = "Account Creation Error";
+      this.errorMessage = ErrorMessages.SIGNUP_FAILED;
+      toast.error(this.errorMessage);
     } finally {
       this.isLoading = false;
     }
@@ -96,9 +99,11 @@ export class UserRegistration {
 
     try {
         await this.authService.loginWithGoogle();
-        console.log('login Successful');
+        this.successMessage = SuccessMessages.SIGN_UP;
+        toast.success(this.successMessage);
     } catch (error) {
-        console.error('Google Sign In Error', error);
+        this.errorMessage = ErrorMessages.SIGNUP_FAILED;
+        toast.error(this.errorMessage);
     } finally {
         this.isGoogleLoading = false;
     }

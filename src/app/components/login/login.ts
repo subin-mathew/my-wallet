@@ -2,7 +2,8 @@ import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth-service';
 import { Router } from '@angular/router';
-import { email } from '@angular/forms/signals';
+import { toast } from 'ngx-sonner';
+import { ErrorMessages, SuccessMessages, ValidationMessages } from '../../utils/enums';
 
 @Component({
   selector: 'app-login',
@@ -19,6 +20,7 @@ export class Login {
   //Component State
   protected readonly isLoading = signal(false);
   protected readonly isGoogleLoading = signal(false);
+  readonly validationMessages = ValidationMessages;
   protected showPassword = false;
   protected errorMessage = '';
   protected successMessage = '';
@@ -63,11 +65,12 @@ export class Login {
       const firebaseUser = await this.authService.loginWithEmail(email, password);
       const userProfile = await this.authService.getUserProfile(firebaseUser.uid);
       if (!userProfile) {
-        this.errorMessage = 'User profile not found. Please contact support.';
+        this.errorMessage = ErrorMessages.PROFILE_NOT_FOUND;
+        toast.error(this.errorMessage);
         return;
       }
-      this.successMessage = 'Successfully Signed In';
-      console.log(this.successMessage);
+      this.successMessage = SuccessMessages.SIGN_IN;
+      toast.success(this.successMessage);
       
       if (userProfile.isProfileCompleted) {
         await this.router.navigate(['/home']);
@@ -75,8 +78,8 @@ export class Login {
         await this.router.navigate(['/onboarding']);
       }
     } catch (error: unknown) {
-      console.error('Email Authentication Error', error);
       this.errorMessage = this.getFirebaseErrorMessage(error);
+      toast.error(this.errorMessage);
     } finally {
       this.isLoading.set(false);
     }
@@ -93,22 +96,22 @@ export class Login {
     try {
 
       const firebaseUser = await this.authService.loginWithGoogle();
-      console.log('login Successful');
       const userProfile = await this.authService.getUserProfile(firebaseUser.uid);
       if (!userProfile) {
-        this.errorMessage = 'User profile not found. Please contact support.';
+        this.errorMessage = ErrorMessages.PROFILE_NOT_FOUND;
+        toast.error(this.errorMessage);
         return;
       }
-
+      this.successMessage = SuccessMessages.SIGN_IN;
+      toast.success(this.successMessage);
       if (userProfile.isProfileCompleted) {
         await this.router.navigate(['/home']);
       } else {
         await this.router.navigate(['/onboarding']);
       }
-
     } catch (error: unknown) {
-      console.error('Google Sign In Error', error);
       this.errorMessage = this.getFirebaseErrorMessage(error);
+      toast.error(this.errorMessage);
     } finally {
       this.isGoogleLoading.set(false);
     }
@@ -125,9 +128,7 @@ export class Login {
   }
 
   private getFirebaseErrorMessage(error: unknown): string {
-
     const firebaseError = error as { code?: string; };
-
     switch (firebaseError.code) {
 
       case 'auth/invalid-credential':
