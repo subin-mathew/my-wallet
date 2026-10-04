@@ -2,8 +2,10 @@ import { Component, inject, signal } from '@angular/core';
 import { AuthService } from '../../services/auth-service';
 import { Router } from '@angular/router';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ErrorMessages, SuccessMessages, ValidationMessages } from '../../utils/enums';
 import { toast } from 'ngx-sonner';
+import { ValidationMessages } from '../../enums/validation-messages';
+import { SuccessMessages } from '../../enums/success-messages';
+import { ErrorMessages } from '../../enums/error-messages';
 
 @Component({
   selector: 'app-forgot-password',
@@ -54,7 +56,7 @@ export class ForgotPassword {
       this.successMessage = SuccessMessages.PASSWORD_RESET_LINK;
       toast.success(this.successMessage);
     } catch(error: unknown) {
-      this.errorMessage = ErrorMessages.PASSWORD_RESET_LINK_FAILED;
+      this.errorMessage = ErrorMessages.PASSWORD_RESET_ERROR;
       toast.error(this.errorMessage)
     } finally{
       this.isLoading.set(false);

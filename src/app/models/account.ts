@@ -1,5 +1,4 @@
 import { Timestamp } from 'firebase/firestore';
-import { AccountType } from '../utils/enums'
 
 export interface Account {
   id?: string;

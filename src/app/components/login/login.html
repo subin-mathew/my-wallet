@@ -59,10 +59,10 @@
                             [class.border-slate]="!(emailControl.invalid && emailControl.touched)" />
                     </div>
                     @if (emailControl.touched && emailControl.hasError('required')) {
-                        <p class="mt-2 text-xs text-red-500">{{validationMessages.EMAIL}}</p>
+                        <p class="mt-2 text-xs text-red-500">{{validationMessages.EMAIL_REQUIRED}}</p>
                     }
                     @if(emailControl.touched && emailControl.hasError('email')){
-                        <p class="mt-2 text-xs text-red-500">{{validationMessages.INVALID_EMAIL}}</p>
+                        <p class="mt-2 text-xs text-red-500">{{validationMessages.EMAIL_INVALID}}</p>
                     }
 
                 </div>
@@ -114,10 +114,10 @@
                     </div>
                    
                     @if (passwordControl.touched && passwordControl.hasError('required')) {
-                        <p class="mt-2 text-xs text-red-500">{{validationMessages.PASSWORD}}</p>
+                        <p class="mt-2 text-xs text-red-500">{{validationMessages.PASSWORD_REQUIRED}}</p>
                      }
                     @if (passwordControl.touched && passwordControl.hasError('minlength')) {
-                        <p class="mt-2 text-xs text-red-500">{{validationMessages.PASSWORD_MIN_LENGTH}}</p>
+                        <p class="mt-2 text-xs text-red-500">{{validationMessages.PASSWORD_MINLENGTH}}</p>
                     }
                 </div>
 

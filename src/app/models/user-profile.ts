@@ -1,5 +1,5 @@
 import { Timestamp } from 'firebase/firestore';
-import { Role, Provider, AccountStatus, CurrencyCode } from '../utils/enums'
+import { AccountStatus, CurrencyCode, Provider, Role } from '../constants/application-constants';
 
 export interface UserProfile {
 

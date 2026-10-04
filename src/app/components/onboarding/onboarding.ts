@@ -20,8 +20,9 @@ import { Timestamp } from 'firebase/firestore';
 import { Account } from '../../models/account';
 import { Router } from '@angular/router';
 import { toast } from 'ngx-sonner';
-import { ErrorMessages, SuccessMessages } from '../../utils/enums';
 import { CurrencyUtils } from '../../utils/currency-utils';
+import { ErrorMessages } from '../../enums/error-messages';
+import { SuccessMessages } from '../../enums/success-messages';
 
 @Component({
   selector: 'app-onboarding',
@@ -153,7 +154,7 @@ export class Onboarding {
     const user = this.authService.getCurrentUser();
 
     if (!user) {
-      toast.error(ErrorMessages.SESSION_TIMEOUT);
+      toast.error(ErrorMessages.SESSION_TIMEOUT_ERROR);
       return false;
     }
 
@@ -164,10 +165,10 @@ export class Onboarding {
         this.selectedCountry
       );
       this.next();
-      toast.success(SuccessMessages.CURRENCY);
+      toast.success(SuccessMessages.CURRENCY_SETUP_SUCCESS);
       return true;
     } catch (error) {
-      toast.error(ErrorMessages.CURRENCY_FAILED);
+      toast.error(ErrorMessages.CURRENCY_SETUP_ERROR);
       return false;
     }
 
@@ -187,7 +188,7 @@ export class Onboarding {
 
     const user = this.authService.getCurrentUser();
     if (!user) {
-      toast.error(ErrorMessages.SESSION_TIMEOUT);
+      toast.error(ErrorMessages.SESSION_TIMEOUT_ERROR);
       return;
     }
 
@@ -195,13 +196,13 @@ export class Onboarding {
     try {
       const accountId = this.accountService.addAccount(user.uid, account);
       if (!accountId) {
-        toast.error(ErrorMessages.SESSION_TIMEOUT);
+        toast.error(ErrorMessages.SESSION_TIMEOUT_ERROR);
         return;
       }
-      toast.success(SuccessMessages.ACCOUNT_SUCCESS);
+      toast.success(SuccessMessages.ACCOUNT_SETUP_SUCCESS);
       this.currentSection++;
     } catch (error) {
-      toast.error(ErrorMessages.ACCOUNT_FAILED);
+      toast.error(ErrorMessages.ACCOUNT_SETUP_FAILED);
     }
   }
 
@@ -342,7 +343,7 @@ export class Onboarding {
     const user = this.authService.getCurrentUser();
 
     if (!user) {
-      toast.error(ErrorMessages.SESSION_TIMEOUT);
+      toast.error(ErrorMessages.SESSION_TIMEOUT_ERROR);
       return false;
     }
 

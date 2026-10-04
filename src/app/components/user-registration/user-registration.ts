@@ -2,8 +2,10 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth-service';
 import { Router } from '@angular/router';
-import { ErrorMessages, SuccessMessages, ValidationMessages } from '../../utils/enums';
 import { toast } from 'ngx-sonner';
+import { SuccessMessages } from '../../enums/success-messages';
+import { ErrorMessages } from '../../enums/error-messages';
+import { ValidationMessages } from '../../enums/validation-messages';
 
 @Component({
   selector: 'app-user-registration',
@@ -79,11 +81,11 @@ export class UserRegistration {
 
     try {
       const userProfile = await this.authService.userRegistration(this.fullName.value.trim(), this.email.value.trim(), this.password.value);
-      this.successMessage = SuccessMessages.SIGN_UP;
+      this.successMessage = SuccessMessages.SIGNUP_SUCCESS;
       toast.success(this.successMessage);
       await this.route.navigate(['/login']);
     } catch (error) {
-      this.errorMessage = ErrorMessages.SIGNUP_FAILED;
+      this.errorMessage = ErrorMessages.SIGNUP_ERROR;
       toast.error(this.errorMessage);
     } finally {
       this.isLoading = false;
@@ -99,10 +101,10 @@ export class UserRegistration {
 
     try {
         await this.authService.loginWithGoogle();
-        this.successMessage = SuccessMessages.SIGN_UP;
+        this.successMessage = SuccessMessages.SIGNUP_SUCCESS;
         toast.success(this.successMessage);
     } catch (error) {
-        this.errorMessage = ErrorMessages.SIGNUP_FAILED;
+        this.errorMessage = ErrorMessages.SIGNUP_ERROR;
         toast.error(this.errorMessage);
     } finally {
         this.isGoogleLoading = false;

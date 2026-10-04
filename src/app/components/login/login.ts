@@ -3,7 +3,9 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth-service';
 import { Router } from '@angular/router';
 import { toast } from 'ngx-sonner';
-import { ErrorMessages, SuccessMessages, ValidationMessages } from '../../utils/enums';
+import { ValidationMessages } from '../../enums/validation-messages';
+import { ErrorMessages } from '../../enums/error-messages';
+import { SuccessMessages } from '../../enums/success-messages';
 
 @Component({
   selector: 'app-login',
@@ -65,11 +67,11 @@ export class Login {
       const firebaseUser = await this.authService.loginWithEmail(email, password);
       const userProfile = await this.authService.getUserProfile(firebaseUser.uid);
       if (!userProfile) {
-        this.errorMessage = ErrorMessages.PROFILE_NOT_FOUND;
+        this.errorMessage = ErrorMessages.PROFILE_NOTFOUND_ERROR;
         toast.error(this.errorMessage);
         return;
       }
-      this.successMessage = SuccessMessages.SIGN_IN;
+      this.successMessage = SuccessMessages.SIGNIN_SUCCESS;
       toast.success(this.successMessage);
       
       if (userProfile.isProfileCompleted) {
@@ -98,11 +100,11 @@ export class Login {
       const firebaseUser = await this.authService.loginWithGoogle();
       const userProfile = await this.authService.getUserProfile(firebaseUser.uid);
       if (!userProfile) {
-        this.errorMessage = ErrorMessages.PROFILE_NOT_FOUND;
+        this.errorMessage = ErrorMessages.PROFILE_NOTFOUND_ERROR;
         toast.error(this.errorMessage);
         return;
       }
-      this.successMessage = SuccessMessages.SIGN_IN;
+      this.successMessage = SuccessMessages.SIGNIN_SUCCESS;
       toast.success(this.successMessage);
       if (userProfile.isProfileCompleted) {
         await this.router.navigate(['/home']);
