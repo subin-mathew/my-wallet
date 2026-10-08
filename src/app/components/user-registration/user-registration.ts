@@ -113,6 +113,6 @@ export class UserRegistration {
   }
 
   gotoSignIn() {
-    this.route.navigate(['/signin'])
+    this.route.navigate(['/login'])
   }
 }

@@ -1,43 +1,76 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+
+import {
+  faBuildingColumns,
+  faChartLine,
+  faMoneyBillTransfer
+} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
-  imports: [ 
+  imports: [
     RouterOutlet,
     RouterLink,
-    RouterLinkActive],
+    RouterLinkActive,
+    FontAwesomeModule
+  ],
   selector: 'app-home',
   styleUrl: './home.css',
   templateUrl: './home.html',
 })
 export class Home {
 
-   sidebarCollapsed = false;
+  sidebarCollapsed = false;
   mobileSidebarOpen = false;
   profileMenuOpen = false;
 
+  //font awesome icons
+  faBuildingColumns = faBuildingColumns;
+  faChartLine = faChartLine;
+  faMoneyBillTransfer = faMoneyBillTransfer;
+
   menus = [
     {
-      label: 'Home',
-      route: '/home',
-      icon: 'M3 12l9-9 9 9M5 10v10h5v-6h4v6h5V10'
+      label: 'Dashboard',
+      route: 'dashboard',
+      icon: faChartLine
     },
     {
-      label: 'Home1',
-      route: '/home',
-      icon: 'M3 12l9-9 9 9M5 10v10h5v-6h4v6h5V10'
+      label: 'Transactions',
+      route: 'transactions',
+      icon: faMoneyBillTransfer
     },
     {
-      label: 'Home2',
-      route: '/home',
-      icon: 'M3 12l9-9 9 9M5 10v10h5v-6h4v6h5V10'
-    },
-    {
-      label: 'Home3',
-      route: '/home',
-      icon: 'M3 12l9-9 9 9M5 10v10h5v-6h4v6h5V10'
-    },
-  ]
+      label: 'Accounts',
+      route: 'accounts',
+      icon: faBuildingColumns
+    }
+  ];
+
+   @ViewChild('profileMenuRef')
+  profileMenuRef!: ElementRef<HTMLElement>;
+
+  toggleProfileMenu(event: MouseEvent): void {
+    event.stopPropagation();
+    this.profileMenuOpen = !this.profileMenuOpen;
+  }
+
+    @HostListener('document:click', ['$event'])
+  closeProfileMenu(event: MouseEvent): void {
+    if (!this.profileMenuOpen) {
+      return;
+    }
+
+    const target = event.target as Node;
+
+    if (
+      this.profileMenuRef &&
+      !this.profileMenuRef.nativeElement.contains(target)
+    ) {
+      this.profileMenuOpen = false;
+    }
+  }
 
   toggleSidebar(): void {
     this.sidebarCollapsed = !this.sidebarCollapsed;
@@ -51,7 +84,4 @@ export class Home {
     this.mobileSidebarOpen = false;
   }
 
-  toggleProfileMenu(): void {
-    this.profileMenuOpen = !this.profileMenuOpen;
-  }
 }

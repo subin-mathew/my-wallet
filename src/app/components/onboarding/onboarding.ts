@@ -23,6 +23,7 @@ import { toast } from 'ngx-sonner';
 import { CurrencyUtils } from '../../utils/currency-utils';
 import { ErrorMessages } from '../../enums/error-messages';
 import { SuccessMessages } from '../../enums/success-messages';
+import { ValidationMessages } from '../../enums/validation-messages';
 
 @Component({
   selector: 'app-onboarding',
@@ -40,6 +41,7 @@ export class Onboarding {
   private readonly authService = inject(AuthService);
   private readonly accountService = inject(AccountService);
   private readonly router = inject(Router);
+  readonly validationMessages = ValidationMessages;
 
   // Font Awesome Icons 
   faArrowRight = faArrowRight;

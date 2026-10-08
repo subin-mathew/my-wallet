@@ -24,21 +24,6 @@
                 <p class="mt-2 text-[15px] text-slate-500 sm:text-[16px]">Sign in to manage your finances </p>
             </div>
 
-            <!-- ERROR -->
-            @if (errorMessage) {
-            <div class="mb-5 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600">
-                {{ errorMessage }}
-            </div>
-            }
-
-            <!-- SUCCESS -->
-            @if (successMessage) {
-            <div
-                class="mb-5 flex items-center gap-3 rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-600">
-                {{ successMessage }}
-            </div>
-            }
-
             <!-- FORM -->
             <form  [formGroup] = "loginForm" (ngSubmit)="login()" novalidate class="mt-5 space-y-3">
                 <!-- EMAIL -->
@@ -71,7 +56,7 @@
                 <div class="mb-7">
                     <div class="mb-2 flex items-center justify-between">
                         <label for="password" class="text-[14px] font-semibold text-slate-800">Password<span class="text-red-500">*</span></label>
-                        <button type="button" class="text-[13px] font-medium text-blue-600 hover:text-blue-700 hover:underline" (click)="forgotPassword()"> Forgot password? </button>
+                        <button type="button" class="text-[13px] font-medium text-blue-600 cursor-pointer hover:text-blue-700 hover:underline" (click)="forgotPassword()"> Forgot password? </button>
                     </div>
                     <div class="relative">
                         <!-- Lock Icon-->
@@ -90,7 +75,7 @@
 
                         <!-- Password Toggle -->
                         <button type="button" (click)="togglePassword()"
-                            class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600">
+                            class="absolute cursor-pointer right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600">
                             
                             @if (!showPassword) {
                             <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none">
@@ -122,7 +107,7 @@
                 </div>
 
                 <!-- SIGN IN -->
-                <button type="submit" [disabled]="isLoading()"  [disabled]="loginForm.invalid" class="flex h-[52px] w-full items-center justify-center rounded-lg bg-blue-600 text-[15px] font-semibold text-white shadow-[0_6px_18px_rgba(37,99,235,0.20)] transition hover:bg-blue-700 active:scale-[0.99] disabled:cursor-not-allowed disabled:bg-blue-300">
+                <button type="submit" [disabled]="isLoading()"  [disabled]="loginForm.invalid" class="flex cursor-pointer h-[52px] w-full items-center justify-center rounded-lg bg-blue-600 text-[15px] font-semibold text-white shadow-[0_6px_18px_rgba(37,99,235,0.20)] transition hover:bg-blue-700 active:scale-[0.99] disabled:cursor-not-allowed disabled:bg-blue-300">
                     @if (isLoading()) {
                     <span class="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white"></span>
                     Signing in...
@@ -142,7 +127,7 @@
             </div>
 
             <!-- GOOGLE -->
-            <button type="button" (click)="loginWithGoogle()" [disabled]="isGoogleLoading()" class="flex h-14 w-full items-center justify-center gap-3 rounded-lg border border-slate-300 bg-white text-[15px] font-semibold text-slate-800 transition hover:border-slate-400 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-60">
+            <button type="button" (click)="loginWithGoogle()" [disabled]="isGoogleLoading()" class="flex cursor-pointer h-14 w-full items-center justify-center gap-3 rounded-lg border border-slate-300 bg-white text-[15px] font-semibold text-slate-800 transition hover:border-slate-400 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-60">
 
                 <!-- Google Logo -->
                 <svg class="h-5 w-5" viewBox="0 0 24 24">
@@ -165,7 +150,7 @@
             <!-- REGISTER -->
             <div class="mt-8 text-center text-[14px] text-slate-500">
                 Don't have an account?
-                <button type="button" class="ml-1 font-medium text-blue-600 hover:text-blue-700 hover:underline" (click)="createAccount()">
+                <button type="button" class="ml-1 font-medium text-blue-600 hover:text-blue-700 cursor-pointer hover:underline" (click)="createAccount()">
                     Create Account
                 </button>
             </div>

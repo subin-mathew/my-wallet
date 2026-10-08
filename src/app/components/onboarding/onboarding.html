@@ -54,7 +54,7 @@
 
       <!-- Continue Button -->
       <button type="button" (click)="next()"
-        class="group mt-6 mx-auto w-[300px] flex justify-center h-11 items-center gap-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-blue-500 px-5 text-base font-semibold text-white shadow-lg shadow-blue-200 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl active:translate-y-0">
+        class="group cursor-pointer mt-6 mx-auto w-[300px] flex justify-center h-11 items-center gap-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-blue-500 px-5 text-base font-semibold text-white shadow-lg shadow-blue-200 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl active:translate-y-0">
 
         <span>
           Setup My Wallet
@@ -118,7 +118,7 @@
             @for (currency of currencies; track currency.code) {
 
             <button type="button" (click)="selectCurrency(currency.code,currency.country)"
-              class="group relative flex h-[96px] items-center gap-3.5 overflow-hidden rounded-xl border bg-white px-4 py-3 text-left transition-all duration-300 ease-out hover:-translate-y-0.5 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-blue-100"
+              class="group cursor-pointer relative flex h-[96px] items-center gap-3.5 overflow-hidden rounded-xl border bg-white px-4 py-3 text-left transition-all duration-300 ease-out hover:-translate-y-0.5 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-blue-100"
               [class.border-blue-500]="selectedCurrency === currency.code"
               [class.bg-blue-50]="selectedCurrency === currency.code"
               [class.shadow-[0_6px_20px_rgba(37,99,235,0.12)]]="selectedCurrency === currency.code"
@@ -211,7 +211,7 @@
 
         <!-- Previous -->
         <button type="button" (click)="previous()"
-          class="group flex h-11 w-[300px] items-center justify-center gap-2.5 rounded-xl border border-slate-200 bg-white px-5 text-base font-semibold text-[#102a68] shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-slate-300 hover:bg-slate-50 hover:shadow-md active:translate-y-0">
+          class="group cursor-pointer flex h-11 w-[300px] items-center justify-center gap-2.5 rounded-xl border border-slate-200 bg-white px-5 text-base font-semibold text-[#102a68] shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-slate-300 hover:bg-slate-50 hover:shadow-md active:translate-y-0">
 
           <span
             class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-slate-100 text-slate-600 transition-all duration-300 group-hover:-translate-x-1 group-hover:bg-blue-50 group-hover:text-blue-600">
@@ -237,7 +237,7 @@
          active:translate-y-0
          disabled:cursor-not-allowed
          disabled:opacity-50
-         disabled:shadow-none
+         disabled:shadow-none cursor-pointer
          disabled:hover:translate-y-0
          disabled:hover:shadow-none">
           <span> Next </span>
@@ -286,7 +286,7 @@
           <div class="mt-6 grid grid-cols-2 gap-2.5 sm:mt-7 md:grid-cols-4">
             <!-- BANK -->
             <button type="button" (click)="selectAccount('bank')"
-              class="group relative min-h-[115px] rounded-2xl border p-3 text-left transition-all duration-200 hover:-translate-y-1 hover:shadow-lg sm:min-h-[125px] sm:p-4"
+              class="group relative min-h-[115px] cursor-pointer rounded-2xl border p-3 text-left transition-all duration-200 hover:-translate-y-1 hover:shadow-lg sm:min-h-[125px] sm:p-4"
               [class.border-blue-500]="selectedAccount === 'bank'" [class.bg-blue-50/40]="selectedAccount === 'bank'"
               [class.shadow-md]="selectedAccount === 'bank'" [class.shadow-blue-100]="selectedAccount === 'bank'"
               [class.border-slate-200]="selectedAccount !== 'bank'" [class.bg-white]="selectedAccount !== 'bank'"
@@ -309,7 +309,7 @@
 
             <!-- CREDIT CARD -->
             <button type="button" (click)="selectAccount('credit-card')"
-              class="group relative min-h-[115px] rounded-2xl border p-3 text-left transition-all duration-200 hover:-translate-y-1 hover:shadow-lg sm:min-h-[125px] sm:p-4"
+              class="group cursor-pointer relative min-h-[115px] rounded-2xl border p-3 text-left transition-all duration-200 hover:-translate-y-1 hover:shadow-lg sm:min-h-[125px] sm:p-4"
               [class.border-blue-500]="selectedAccount === 'credit-card'"
               [class.bg-blue-50/40]="selectedAccount === 'credit-card'"
               [class.shadow-md]="selectedAccount === 'credit-card'"
@@ -347,7 +347,7 @@
 
             <!-- CASH -->
             <button type="button" (click)="selectAccount('cash')"
-              class="group relative min-h-[115px] rounded-2xl border p-3 text-left transition-all duration-200 hover:-translate-y-1 hover:shadow-lg sm:min-h-[125px] sm:p-4"
+              class="group cursor-pointer relative min-h-[115px] rounded-2xl border p-3 text-left transition-all duration-200 hover:-translate-y-1 hover:shadow-lg sm:min-h-[125px] sm:p-4"
               [class.border-blue-500]="selectedAccount === 'cash'" [class.bg-blue-50/40]="selectedAccount === 'cash'"
               [class.shadow-md]="selectedAccount === 'cash'" [class.shadow-blue-100]="selectedAccount === 'cash'"
               [class.border-slate-200]="selectedAccount !== 'cash'" [class.bg-white]="selectedAccount !== 'cash'"
@@ -382,7 +382,7 @@
 
             <!-- DIGITAL WALLET -->
             <button type="button" (click)="selectAccount('digital-wallet')"
-              class="group relative min-h-[115px] rounded-2xl border p-3 text-left transition-all duration-200 hover:-translate-y-1 hover:shadow-lg sm:min-h-[125px] sm:p-4"
+              class="group cursor-pointer relative min-h-[115px] rounded-2xl border p-3 text-left transition-all duration-200 hover:-translate-y-1 hover:shadow-lg sm:min-h-[125px] sm:p-4"
               [class.border-blue-500]="selectedAccount === 'digital-wallet'"
               [class.bg-blue-50/40]="selectedAccount === 'digital-wallet'"
               [class.shadow-md]="selectedAccount === 'digital-wallet'"
@@ -496,15 +496,13 @@
 
                   <div>
 
-                    <label class="mb-2 block text-sm font-semibold text-[#17366e]">
-                      Account Name
-                    </label>
+                    <label class="mb-2 block text-sm font-semibold text-[#17366e]"> Account Name<span class="text-red-500">*</span> </label> 
 
                     <input type="text" formControlName="accountName" placeholder="Enter the account name"
                       class="h-11 w-full rounded-xl border border-slate-200 bg-[#f5f9ff] px-4 text-sm outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-100 sm:h-12"
                       [class.border-red-500]="isFieldInvalid('accountName')" />
                     @if(isFieldInvalid('accountName')){
-                    <p class="mt-1 text-sm text-red-500"> Account name is required. </p>
+                    <p class="mt-1 text-sm text-red-500">{{validationMessages.ACCOUNT_NAME_REQUIRED}}</p>
                     }
 
                   </div>
@@ -512,9 +510,7 @@
 
                   <div>
 
-                    <label class="mb-2 block text-sm font-semibold text-[#17366e]">
-                      Account Type
-                    </label>
+                    <label class="mb-2 block text-sm font-semibold text-[#17366e]"> Account Type<span class="text-red-500">*</span> </label>
 
                     <select formControlName="bankAccountType" [class.border-red-500]="isFieldInvalid('bankAccountType')"
                       class="h-11 w-full rounded-xl border border-slate-200 bg-[#f5f9ff] px-4 text-sm text-slate-600 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-100 sm:h-12">
@@ -537,16 +533,14 @@
 
                     </select>
                     @if(isFieldInvalid('bankAccountType')){
-                    <p class="mt-1 text-sm text-red-500">select the account type. </p>
+                    <p class="mt-1 text-sm text-red-500">{{validationMessages.ACCOUNT_TYPE_REQUIRED}} </p>
                     }
                   </div>
 
 
                   <div>
 
-                    <label class="mb-2 block text-sm font-semibold text-[#17366e]">
-                      Bank Name
-                    </label>
+                    <label class="mb-2 block text-sm font-semibold text-[#17366e]"> Bank Name<span class="text-red-500">*</span> </label>
 
                     <select formControlName="bankName" [class.border-red-500]="isFieldInvalid('bankName')"
                       class="h-11 w-full rounded-xl border border-slate-200 bg-[#f5f9ff] px-4 text-sm text-slate-600 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-100 sm:h-12">
@@ -569,16 +563,14 @@
 
                     </select>
                     @if(isFieldInvalid('bankName')){
-                    <p class="mt-1 text-sm text-red-500">select a bank </p>
+                    <p class="mt-1 text-sm text-red-500">{{validationMessages.BANK_NAME_REQUIRED}}</p>
                     }
                   </div>
 
 
                   <div>
 
-                    <label class="mb-2 block text-sm font-semibold text-[#17366e]">
-                      Current Balance
-                    </label>
+                    <label class="mb-2 block text-sm font-semibold text-[#17366e]"> Current Balance<span class="text-red-500">*</span> </label>
 
                     <div class="relative">
 
@@ -592,10 +584,10 @@
 
                     </div>
                     @if(isFieldInvalid('balance') && accountForm.get('balance')?.hasError('required')){
-                    <p class="mt-1 text-sm text-red-500">Balance is required. </p>
+                    <p class="mt-1 text-sm text-red-500">{{validationMessages.BALANCE_REQUIRED}} </p>
                     }
                     @if(isFieldInvalid('balance') && accountForm.get('balance')?.hasError('min')){
-                    <p class="mt-1 text-sm text-red-500">Balance cannot be negative. </p>
+                    <p class="mt-1 text-sm text-red-500">{{validationMessages.BALANCE_NEGATIVE}} </p>
                     }
 
                   </div>
@@ -612,15 +604,13 @@
 
                   <div>
 
-                    <label class="mb-2 block text-sm font-semibold text-[#17366e]">
-                      Card Name
-                    </label>
+                    <label class="mb-2 block text-sm font-semibold text-[#17366e]"> Card Name<span class="text-red-500">*</span> </label>
 
                     <input type="text" formControlName="accountName" placeholder="e.g. ICICI Amazon Pay"
                       [class.border-red-500]="isFieldInvalid('accountName')"
                       class="h-11 w-full rounded-xl border border-slate-200 bg-[#f5f9ff] px-4 text-sm outline-none focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-100 sm:h-12" />
                     @if(isFieldInvalid('accountName')){
-                    <p class="mt-1 text-sm text-red-500">Card Name is required</p>
+                    <p class="mt-1 text-sm text-red-500">{{validationMessages.CARD_NAME_REQUIRED}}</p>
                     }
 
                   </div>
@@ -628,9 +618,7 @@
 
                   <div>
 
-                    <label class="mb-2 block text-sm font-semibold text-[#17366e]">
-                      Bank Name
-                    </label>
+                    <label class="mb-2 block text-sm font-semibold text-[#17366e]"> Bank Name<span class="text-red-500">*</span> </label>
 
                     <select formControlName="bankName" [class.border-red-500]="isFieldInvalid('bankName')"
                       class="h-11 w-full rounded-xl border border-slate-200 bg-[#f5f9ff] px-4 text-sm text-slate-600 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-100 sm:h-12">
@@ -653,78 +641,69 @@
 
                     </select>
                     @if(isFieldInvalid('bankName')){
-                    <p class="mt-1 text-sm text-red-500">select a bank </p>
+                    <p class="mt-1 text-sm text-red-500">{{validationMessages.BANK_NAME_REQUIRED}}</p>
                     }
                   </div>
 
 
                   <div>
 
-                    <label class="mb-2 block text-sm font-semibold text-[#17366e]">
-                      Credit Limit
-                    </label>
+                    <label class="mb-2 block text-sm font-semibold text-[#17366e]"> Credit Limit<span class="text-red-500">*</span> </label>
 
                     <input type="number" formControlName="creditLimit" placeholder="₹ 1,00,000"
                       [class.border-red-500]="isFieldInvalid('creditLimit')"
                       class="h-11 w-full rounded-xl border border-slate-200 bg-[#f5f9ff] px-4 text-sm outline-none focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-100 sm:h-12" />
                     @if(isFieldInvalid('creditLimit') && accountForm.get('creditLimit')?.hasError('required')){
-                    <p class="mt-1 text-sm text-red-500">Credit limit is required.</p>
+                    <p class="mt-1 text-sm text-red-500">{{validationMessages.CREDIT_LIMIT_REQUIRED}}</p>
                     }
                     @if(isFieldInvalid('creditLimit') && accountForm.get('creditLimit')?.hasError('min')){
-                    <p class="mt-1 text-sm text-red-500"> Credit limit cannot be negative.</p>
+                    <p class="mt-1 text-sm text-red-500">{{validationMessages.CREDIT_LIMIT_NEGATIVE}}</p>
                     }
                   </div>
 
 
                   <div>
 
-                    <label class="mb-2 block text-sm font-semibold text-[#17366e]">
-                      Current Outstanding
-                    </label>
+                    <label class="mb-2 block text-sm font-semibold text-[#17366e]"> Current Outstanding<span class="text-red-500">*</span> </label>
 
                     <input type="number" formControlName="currentOutstanding" placeholder="₹ 1,00,000"
                       [class.border-red-500]="isFieldInvalid('currentOutstanding')"
                       class="h-11 w-full rounded-xl border border-slate-200 bg-[#f5f9ff] px-4 text-sm outline-none focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-100 sm:h-12" />
                     @if(isFieldInvalid('currentOutstanding') &&
                     accountForm.get('currentOutstanding')?.hasError('required')){
-                    <p class="mt-1 text-sm text-red-500"> Current outstanding is required.</p>
+                    <p class="mt-1 text-sm text-red-500">{{validationMessages.CURRENT_OUTSTANDING_REQUIRED}}</p>
                     }
                     @if(isFieldInvalid('currentOutstanding') && accountForm.get('currentOutstanding')?.hasError('min')){
-                    <p class="mt-1 text-sm text-red-500"> Current outstanding cannot be negative.</p>
+                    <p class="mt-1 text-sm text-red-500">{{validationMessages.CURRENT_OUTSTANDING_NEGATIVE}}</p>
                     }
                   </div>
 
 
                   <div>
 
-                    <label class="mb-2 block text-sm font-semibold text-[#17366e]">
-                      Minimum Due Amount
-                    </label>
+                    <label class="mb-2 block text-sm font-semibold text-[#17366e]"> Minimum Due Amount<span class="text-red-500">*</span> </label>
 
                     <input type="number" formControlName="minimumAmountDue" placeholder="₹ 1,00,000"
                       [class.border-red-500]="isFieldInvalid('minimumAmountDue')"
                       class="h-11 w-full rounded-xl border border-slate-200 bg-[#f5f9ff] px-4 text-sm outline-none focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-100 sm:h-12" />
                     @if(isFieldInvalid('minimumAmountDue') &&
                     accountForm.get('minimumAmountDue')?.hasError('required')){
-                    <p class="mt-1 text-sm text-red-500"> Minimum Due Amount is required.</p>
+                    <p class="mt-1 text-sm text-red-500">{{validationMessages.MINIMUM_DUE_AMOUNT_REQUIRED}}</p>
                     }
                     @if(isFieldInvalid('minimumAmountDue') && accountForm.get('minimumAmountDue')?.hasError('min')){
-                    <p class="mt-1 text-sm text-red-500"> Minimum Due Amount cannot be negative.</p>
+                    <p class="mt-1 text-sm text-red-500">{{validationMessages.MINIMUM_DUE_AMOUNT_NEGATIVE}}</p>
                     }
                   </div>
 
 
                   <div>
-
-                    <label class="mb-2 block text-sm font-semibold text-[#17366e]">
-                      Payment Due Date
-                    </label>
+                    <label class="mb-2 block text-sm font-semibold text-[#17366e]"> Payment Due Date<span class="text-red-500">*</span> </label>
 
                     <input type="date" formControlName="paymentDueDate"
                       [class.border-red-500]="isFieldInvalid('paymentDueDate')"
                       class="h-11 w-full rounded-xl border border-slate-200 bg-[#f5f9ff] px-4 text-sm outline-none focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-100 sm:h-12" />
                     @if(isFieldInvalid('paymentDueDate')){
-                    <p class="mt-1 text-sm text-red-500"> Payment due date is required.</p>
+                    <p class="mt-1 text-sm text-red-500"> {{validationMessages.PAYMENT_DUE_DATE}}</p>
                     }
                   </div>
 
@@ -740,24 +719,20 @@
 
                   <div>
 
-                    <label class="mb-2 block text-sm font-semibold text-[#17366e]">
-                      Account Name
-                    </label>
+                    <label class="mb-2 block text-sm font-semibold text-[#17366e]"> Account Name<span class="text-red-500">*</span> </label>
 
                     <input type="text" formControlName="accountName" placeholder="Enter the account name"
                       [class.border-red-500]="isFieldInvalid('accountName')"
                       class="h-11 w-full rounded-xl border border-slate-200 bg-[#f5f9ff] px-4 text-sm outline-none focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-100 sm:h-12" />
                     @if(isFieldInvalid('accountName')){
-                    <p class="mt-1 text-sm text-red-500"> Account name is required. </p>
+                    <p class="mt-1 text-sm text-red-500">{{validationMessages.ACCOUNT_NAME_REQUIRED}}</p>
                     }
                   </div>
 
 
                   <div>
 
-                    <label class="mb-2 block text-sm font-semibold text-[#17366e]">
-                      Current Balance
-                    </label>
+                    <label class="mb-2 block text-sm font-semibold text-[#17366e]"> Current Balance<span class="text-red-500">*</span> </label>
 
                     <div class="relative">
 
@@ -771,10 +746,10 @@
 
                     </div>
                     @if(isFieldInvalid('balance') && accountForm.get('balance')?.hasError('required')){
-                    <p class="mt-1 text-sm text-red-500">Balance is required. </p>
+                    <p class="mt-1 text-sm text-red-500">{{validationMessages.BALANCE_REQUIRED}}</p>
                     }
                     @if(isFieldInvalid('balance') && accountForm.get('balance')?.hasError('min')){
-                    <p class="mt-1 text-sm text-red-500">Balance cannot be negative. </p>
+                    <p class="mt-1 text-sm text-red-500">{{validationMessages.BALANCE_NEGATIVE}} </p>
                     }
 
                   </div>
@@ -791,9 +766,7 @@
 
                   <div>
 
-                    <label class="mb-2 block text-sm font-semibold text-[#17366e]">
-                      Wallet Provider
-                    </label>
+                    <label class="mb-2 block text-sm font-semibold text-[#17366e]"> Wallet Provider<span class="text-red-500">*</span> </label>
 
                     <select formControlName="accountName" [class.border-red-500]="isFieldInvalid('accountName')"
                       class="h-11 w-full rounded-xl border border-slate-200 bg-[#f5f9ff] px-4 text-sm outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-100 sm:h-12">
@@ -812,16 +785,14 @@
 
                     </select>
                     @if(isFieldInvalid('accountName')){
-                    <p class="mt-1 text-sm text-red-500">select a wallet provider </p>
+                    <p class="mt-1 text-sm text-red-500">{{validationMessages.WALLET_PROVIDER_REQUIRED}}</p>
                     }
                   </div>
 
 
                   <div>
 
-                    <label class="mb-2 block text-sm font-semibold text-[#17366e]">
-                      Current Balance
-                    </label>
+                    <label class="mb-2 block text-sm font-semibold text-[#17366e]"> Current Balance<span class="text-red-500">*</span> </label>
 
                     <div class="relative">
 
@@ -835,10 +806,10 @@
 
                     </div>
                     @if(isFieldInvalid('balance') && accountForm.get('balance')?.hasError('required')){
-                    <p class="mt-1 text-sm text-red-500">Balance is required. </p>
+                    <p class="mt-1 text-sm text-red-500">{{validationMessages.BALANCE_REQUIRED}} </p>
                     }
                     @if(isFieldInvalid('balance') && accountForm.get('balance')?.hasError('min')){
-                    <p class="mt-1 text-sm text-red-500">Balance cannot be negative. </p>
+                    <p class="mt-1 text-sm text-red-500">{{validationMessages.BALANCE_NEGATIVE}}</p>
                     }
                   </div>
 
@@ -874,7 +845,7 @@
 
               <!-- Previous -->
               <button type="button" (click)="previous()"
-                class="group flex h-11 w-full items-center justify-center gap-2.5 rounded-xl border border-slate-200 bg-white px-5 text-base font-semibold text-[#102a68] shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-slate-300 hover:bg-slate-50 hover:shadow-md active:translate-y-0 sm:w-[300px]">
+                class="group cursor-pointer flex h-11 w-full items-center justify-center gap-2.5 rounded-xl border border-slate-200 bg-white px-5 text-base font-semibold text-[#102a68] shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-slate-300 hover:bg-slate-50 hover:shadow-md active:translate-y-0 sm:w-[300px]">
 
                 <span
                   class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-slate-100 text-slate-600 transition-all duration-300 group-hover:-translate-x-1 group-hover:bg-blue-50 group-hover:text-blue-600">
@@ -895,7 +866,7 @@
               <button type="button" [disabled]="accountForm.invalid" (click)="saveAccount()" class="group flex h-11 w-[300px] items-center justify-center gap-2.5 rounded-xl
          bg-gradient-to-r from-blue-600 to-blue-500 px-5 text-base font-semibold text-white
          shadow-lg shadow-blue-200
-         transition-all duration-300
+         transition-all duration-300 cursor-pointer
          hover:-translate-y-0.5 hover:shadow-xl
          active:translate-y-0
          disabled:cursor-not-allowed
@@ -983,7 +954,7 @@
           <div class="mt-3 flex justify-center gap-4">
 
             <button type="button" (click)="completeOnboarding()"
-              class="group flex h-11 w-[300px] items-center justify-center gap-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-blue-500 px-5 text-base font-semibold text-white shadow-lg shadow-blue-200 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl active:translate-y-0">
+              class="group flex cursor-pointer h-11 w-[300px] items-center justify-center gap-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-blue-500 px-5 text-base font-semibold text-white shadow-lg shadow-blue-200 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl active:translate-y-0">
 
               <span>
                 Go to Dashboard

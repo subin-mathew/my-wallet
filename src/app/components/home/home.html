@@ -1,268 +1,111 @@
 <div class="flex h-screen overflow-hidden bg-[#f7faff]">
 
-  <!-- ========================================== -->
   <!-- MOBILE OVERLAY -->
-  <!-- ========================================== -->
-
   @if (mobileSidebarOpen) {
-    <div
-      class="fixed inset-0 z-40 bg-slate-900/30 backdrop-blur-[2px] lg:hidden"
-      (click)="closeMobileSidebar()">
-    </div>
+  <div class="fixed inset-0 z-40 bg-slate-900/30 backdrop-blur-[2px] lg:hidden" (click)="closeMobileSidebar()"> </div>
   }
 
-
-  <!-- ========================================== -->
   <!-- SIDEBAR -->
-  <!-- ========================================== -->
-
   <aside
-    class="
-      fixed inset-y-0 left-0 z-50
-      flex flex-col
-      border-r border-blue-100
-      bg-white
-      shadow-[4px_0_24px_rgba(30,100,200,0.04)]
-      transition-all duration-300 ease-in-out
-      lg:relative lg:z-auto lg:translate-x-0
-    "
-    [class.w-[260px]]="!sidebarCollapsed"
-    [class.w-[78px]]="sidebarCollapsed"
-    [class.translate-x-0]="mobileSidebarOpen"
-    [class.-translate-x-full]="!mobileSidebarOpen"
-    [class.lg:w-[260px]]="!sidebarCollapsed"
-    [class.lg:w-[78px]]="sidebarCollapsed"
-  >
+    class=" fixed inset-y-0 left-0 z-50 flex flex-col border-r border-blue-100 bg-white shadow-[4px_0_24px_rgba(30,100,200,0.04)] transition-all duration-300 ease-in-out lg:relative lg:z-auto lg:translate-x-0 "
+    [class.w-[260px]]="!sidebarCollapsed" [class.w-[78px]]="sidebarCollapsed" [class.translate-x-0]="mobileSidebarOpen"
+    [class.-translate-x-full]="!mobileSidebarOpen" [class.lg:w-[260px]]="!sidebarCollapsed"
+    [class.lg:w-[78px]]="sidebarCollapsed">
 
     <!-- Logo -->
-    <div
-      class="
-        flex h-[82px] shrink-0 items-center
-        border-b border-blue-50
-        px-5
-      "
-      [class.justify-center]="sidebarCollapsed"
-      [class.px-0]="sidebarCollapsed"
-    >
-
-      <a
-        routerLink="/home"
-        class="flex items-center gap-3"
-      >
-
+    <div class=" flex h-20 shrink-0 items-center border-b border-blue-50 px-5 "
+      [class.justify-center]="sidebarCollapsed" [class.px-0]="sidebarCollapsed">
+      <a routerLink="/home" class="flex items-center gap-3">
         <!-- Wallet Logo -->
-        <div
-          class="
-            flex h-10 w-10 shrink-0 items-center justify-center
-            rounded-xl bg-gradient-to-br
-            from-blue-500 to-blue-600
-            shadow-md shadow-blue-200
-          "
-        >
-          <svg
-            class="h-6 w-6 text-white"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="1.8"
-          >
-            <path d="M4 7h15a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2z"/>
-            <path d="M4 7V5a2 2 0 012-2h10l3 4"/>
-            <path d="M16 13h5"/>
-            <circle cx="16" cy="13" r="1"/>
-          </svg>
+        <div class=" flex h-10 w-14 items-center justify-center">
+          <img src="/images/my-wallet-logo.png" alt="My Wallet Logo" class="h-10 object-contain" />
         </div>
-
         @if (!sidebarCollapsed) {
-          <span
-            class="
-              whitespace-nowrap
-              text-xl font-bold tracking-tight
-              text-[#123c85]
-            "
-          >
-            My Wallet
-          </span>
+        <div class="flex items-center justify-center">
+          <img src="/images/my-wallet-title.png" alt="My Wallet Title" class="h-10 object-contain" />
+        </div>
         }
-
       </a>
-
     </div>
 
-
-    <!-- ======================================== -->
     <!-- NAVIGATION -->
-    <!-- ======================================== -->
-
-    <nav class="flex-1 overflow-y-auto px-3 py-5">
-
+    <nav class="flex-1 px-3 py-5">
       <div class="space-y-1">
-
         @for (item of menus; track item.route) {
+        <a [routerLink]="item.route" routerLinkActive="bg-blue-50" [routerLinkActiveOptions]="{ exact: true }"
+          #rla="routerLinkActive" class="group relative flex h-11 items-center rounded-xl
+           text-[14px] font-medium text-slate-500
+           transition-all duration-200
+           hover:bg-blue-50 hover:text-blue-600" [class.justify-center]="sidebarCollapsed"
+          [class.px-3]="!sidebarCollapsed" [class.gap-3]="!sidebarCollapsed">
 
-          <a
-            [routerLink]="item.route"
-            routerLinkActive="bg-blue-50 text-blue-600"
-            [routerLinkActiveOptions]="{ exact: true }"
+          <!-- Active indicator -->
+          <span class="absolute left-0 top-1/2 h-6 w-1
+             -translate-y-1/2 rounded-r-full bg-blue-600
+             transition-opacity duration-200" [class.opacity-100]="rla.isActive"
+            [class.opacity-0]="!rla.isActive"></span>
 
-            class="
-              group relative flex h-11 items-center
-              rounded-xl
-              text-[14px] font-medium
-              text-slate-500
-              transition-all duration-200
-              hover:bg-blue-50 hover:text-blue-600
-            "
+          <!-- Icon -->
+          <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg"
+            [class.text-blue-600]="rla.isActive" [class.text-slate-500]="!rla.isActive">
+            <fa-icon [icon]="item.icon" class="text-[22px]"></fa-icon>
+          </span>
 
-            [class.justify-center]="sidebarCollapsed"
-            [class.px-3]="!sidebarCollapsed"
-            [class.gap-3]="!sidebarCollapsed"
-          >
+          <!-- Label -->
+          @if (!sidebarCollapsed) {
+          <span class="whitespace-nowrap" [class.text-blue-600]="rla.isActive" [class.text-slate-500]="!rla.isActive">
+            {{ item.label }}
+          </span>
+          }
 
-            <!-- Active indicator -->
-            <span
-              class="
-                absolute left-0 top-1/2
-                h-6 w-1
-                -translate-y-1/2
-                rounded-r-full
-                bg-blue-600
-                opacity-0
-                transition-opacity
-              "
-              [class.opacity-100]="false"
-            ></span>
+          <!-- Collapsed Tooltip -->
+          @if (sidebarCollapsed) {
+          <span class="pointer-events-none absolute left-[68px] top-1/2 z-[100]
+               -translate-y-1/2 whitespace-nowrap rounded-lg
+               bg-slate-900 px-3 py-2 text-xs font-medium text-white
+               opacity-0 shadow-lg transition-all duration-150
+               group-hover:translate-x-1 group-hover:opacity-100">
+            {{ item.label }}
 
-
-            <!-- Icon -->
-            <span
-              class="
-                flex h-8 w-8 shrink-0
-                items-center justify-center
-                rounded-lg
-                transition-colors
-              "
-            >
-              <svg
-                class="h-[19px] w-[19px]"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.8"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <path [attr.d]="item.icon"></path>
-              </svg>
-            </span>
-
-
-            <!-- Label -->
-            @if (!sidebarCollapsed) {
-              <span class="whitespace-nowrap">
-                {{ item.label }}
-              </span>
-            }
-
-
-            <!-- ================================= -->
-            <!-- COLLAPSED TOOLTIP -->
-            <!-- ================================= -->
-
-            @if (sidebarCollapsed) {
-
-              <span
-                class="
-                  pointer-events-none
-                  absolute left-[68px] top-1/2 z-[100]
-                  -translate-y-1/2
-                  whitespace-nowrap
-                  rounded-lg
-                  bg-slate-900
-                  px-3 py-2
-                  text-xs font-medium text-white
-                  opacity-0
-                  shadow-lg
-                  transition-all duration-150
-                  group-hover:translate-x-1
-                  group-hover:opacity-100
-                "
-              >
-                {{ item.label }}
-
-                <!-- Tooltip arrow -->
-                <span
-                  class="
-                    absolute left-[-4px] top-1/2
-                    h-2 w-2
-                    -translate-y-1/2
-                    rotate-45
-                    bg-slate-900
-                  "
-                ></span>
-              </span>
-
-            }
-
-          </a>
-
+            <span class="absolute left-[-4px] top-1/2 h-2 w-2
+                 -translate-y-1/2 rotate-45 bg-slate-900"></span>
+          </span>
+          }
+        </a>
         }
 
       </div>
 
     </nav>
 
-
-    <!-- ======================================== -->
     <!-- SIDEBAR COLLAPSE BUTTON -->
-    <!-- ======================================== -->
-
     <div class="border-t border-blue-50 p-3">
-
-      <button
-        type="button"
-        (click)="toggleSidebar()"
-
-        class="
+      <button type="button" (click)="toggleSidebar()" class="
           group relative flex h-11 w-full
-          items-center
+          items-center cursor-pointer
           rounded-xl
           text-slate-500
           transition
           hover:bg-blue-50
           hover:text-blue-600
-        "
+        " [class.justify-center]="sidebarCollapsed" [class.px-3]="!sidebarCollapsed">
 
-        [class.justify-center]="sidebarCollapsed"
-        [class.px-3]="!sidebarCollapsed"
-      >
-
-        <span
-          class="flex h-8 w-8 items-center justify-center"
-        >
-          <svg
-            class="h-5 w-5 transition-transform duration-300"
-            [class.rotate-180]="sidebarCollapsed"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="1.8"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <path d="M15 18l-6-6 6-6"/>
+        <span class="flex h-8 w-8 items-center justify-center">
+          <svg class="h-5 w-5 transition-transform duration-300" [class.rotate-180]="sidebarCollapsed"
+            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="M15 18l-6-6 6-6" />
           </svg>
         </span>
 
         @if (!sidebarCollapsed) {
-          <span class="text-sm font-medium">
-            Collapse menu
-          </span>
+        <span class="text-sm font-medium">
+          Collapse Menu
+        </span>
         }
 
         @if (sidebarCollapsed) {
-          <span
-            class="
+        <span class="
               pointer-events-none
               absolute left-[68px]
               whitespace-nowrap
@@ -272,34 +115,21 @@
               opacity-0
               shadow-lg
               group-hover:opacity-100
-            "
-          >
-            Expand menu
-          </span>
+            ">
+          Expand Menu
+        </span>
         }
-
       </button>
-
     </div>
-
   </aside>
 
-
-  <!-- ========================================== -->
   <!-- MAIN AREA -->
-  <!-- ========================================== -->
 
   <div class="flex min-w-0 flex-1 flex-col">
-
-
-    <!-- ======================================== -->
     <!-- TOP NAVBAR -->
-    <!-- ======================================== -->
-
-    <header
-      class="
+    <header class="
         relative z-30
-        flex h-[82px] shrink-0
+        flex h-20 shrink-0
         items-center
         border-b border-blue-50
         bg-white/95
@@ -308,13 +138,10 @@
         backdrop-blur
         sm:px-6
         lg:px-8
-      "
-    >
+      ">
 
       <!-- Mobile menu button -->
-      <button
-        type="button"
-        class="
+      <button type="button" class="
           mr-3 flex h-10 w-10
           items-center justify-center
           rounded-xl
@@ -322,288 +149,68 @@
           hover:bg-blue-50
           hover:text-blue-600
           lg:hidden
-        "
-        (click)="toggleMobileSidebar()"
-      >
-        <svg
-          class="h-6 w-6"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="1.8"
-          stroke-linecap="round"
-        >
-          <path d="M4 6h16M4 12h16M4 18h16"/>
+        " (click)="toggleMobileSidebar()">
+        <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+          stroke-linecap="round">
+          <path d="M4 6h16M4 12h16M4 18h16" />
         </svg>
       </button>
 
-
-      <!-- Search -->
-      <div class="relative w-full max-w-[520px]">
-
-        <svg
-          class="
-            pointer-events-none
-            absolute left-4 top-1/2
-            h-5 w-5
-            -translate-y-1/2
-            text-slate-400
-          "
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="1.8"
-        >
-          <circle cx="11" cy="11" r="7"/>
-          <path d="M20 20l-4-4"/>
-        </svg>
-
-        <input
-          type="text"
-          placeholder="Search anything..."
-          class="
-            h-11 w-full
-            rounded-full
-            border border-blue-100
-            bg-[#fbfdff]
-            pl-11 pr-4
-            text-sm text-slate-700
-            outline-none
-            transition
-            placeholder:text-slate-400
-            focus:border-blue-300
-            focus:ring-4
-            focus:ring-blue-50
-          "
-        />
-
-      </div>
-
-
       <!-- Right side -->
-      <div class="ml-auto flex items-center gap-2 sm:gap-4">
-
-
-        <!-- Notification -->
-        <button
-          type="button"
-          class="
-            relative flex h-10 w-10
-            items-center justify-center
-            rounded-full
-            text-slate-500
-            transition
-            hover:bg-blue-50
-            hover:text-blue-600
-          "
-        >
-
-          <svg
-            class="h-5 w-5"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="1.8"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <path d="M18 8a6 6 0 00-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/>
-            <path d="M10 21h4"/>
-          </svg>
-
-          <span
-            class="
-              absolute right-2 top-1
-              h-2 w-2
-              rounded-full
-              bg-blue-500
-              ring-2 ring-white
-            "
-          ></span>
-
-        </button>
-
-
+      <div class="ml-auto flex items-center gap-2 sm:gap-4">      
         <!-- Divider -->
         <div class="hidden h-8 w-px bg-blue-100 sm:block"></div>
-
-
         <!-- Profile -->
-        <div class="relative">
+        <div #profileMenuRef class="relative">
 
-          <button
-            type="button"
-            (click)="toggleProfileMenu()"
-            class="
+          <button type="button" (click)="toggleProfileMenu($event)" class="
               flex items-center gap-2
-              rounded-xl
+              rounded-xl cursor-pointer
               p-1.5
               transition
               hover:bg-blue-50
-            "
-          >
+            ">
 
             <!-- Avatar -->
-            <div
-              class="
-                flex h-9 w-9
-                items-center justify-center
-                overflow-hidden
-                rounded-full
-                bg-blue-100
-              "
-            >
-              <span
-                class="text-sm font-semibold text-blue-700"
-              >
-                SM
-              </span>
+            <div class=" flex h-9 w-9 items-center justify-center overflow-hidden rounded-full bg-blue-100 ">
+              <span class="text-sm font-semibold text-blue-700"> SM </span>
             </div>
-
 
             <div class="hidden text-left sm:block">
-
-              <p
-                class="
-                  text-sm font-semibold
-                  text-[#123c85]
-                "
-              >
-                Subin Mathew
-              </p>
-
-              <p
-                class="
-                  text-[11px]
-                  text-slate-400
-                "
-              >
-                Personal Account
-              </p>
-
+              <p class=" text-sm font-semibold text-[#123c85] "> Subin Mathew </p>
             </div>
 
-
-            <svg
-              class="
-                hidden h-4 w-4
-                text-slate-500
-                transition-transform
-                sm:block
-              "
-              [class.rotate-180]="profileMenuOpen"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <path d="M6 9l6 6 6-6"/>
+            <svg class=" hidden h-4 w-4 text-slate-500 transition-transform sm:block " [class.rotate-180]="profileMenuOpen" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M6 9l6 6 6-6" />
             </svg>
-
           </button>
 
 
           <!-- Profile Dropdown -->
           @if (profileMenuOpen) {
 
-            <div
-              class="
-                absolute right-0 top-14
-                z-50 w-56
-                overflow-hidden
-                rounded-2xl
-                border border-blue-100
-                bg-white
-                p-2
-                shadow-xl
-              "
-            >
-
-              <div
-                class="
-                  border-b border-slate-100
-                  px-3 py-3
-                "
-              >
-                <p class="text-sm font-semibold text-slate-800">
-                  Subin Mathew
-                </p>
-
-                <p class="mt-1 text-xs text-slate-400">
-                  Personal Account
-                </p>
-              </div>
-
-
-              <a
-                routerLink="/profile"
-                class="
-                  mt-1 flex items-center gap-3
-                  rounded-xl px-3 py-2.5
-                  text-sm text-slate-600
-                  hover:bg-blue-50
-                  hover:text-blue-600
-                "
-              >
-                Profile
-              </a>
-
-              <a
-                routerLink="/settings"
-                class="
-                  flex items-center gap-3
-                  rounded-xl px-3 py-2.5
-                  text-sm text-slate-600
-                  hover:bg-blue-50
-                  hover:text-blue-600
-                "
-              >
-                Settings
-              </a>
-
-              <button
-                type="button"
-                class="
-                  flex w-full items-center
-                  rounded-xl px-3 py-2.5
-                  text-left text-sm
-                  text-red-500
-                  hover:bg-red-50
-                "
-              >
-                Sign out
-              </button>
-
+          <div class=" absolute right-0 top-14 z-50 w-56 overflow-hidden rounded-2xl border border-blue-100 bg-white p-2 shadow-xl ">
+            <div class=" border-b border-slate-100 px-3 py-3 ">
+              <p class="text-sm font-semibold text-slate-800"> Subin Mathew </p>
             </div>
-
+            <a routerLink="/profile" 
+                class=" mt-1 flex items-center cursor-pointer gap-3 rounded-xl px-3 py-2.5 text-sm text-slate-600 hover:bg-blue-50 hover:text-blue-600 ">
+              Profile
+            </a>
+            <a routerLink="/settings" 
+                class=" flex items-center cursor-pointer gap-3 rounded-xl px-3 py-2.5 text-sm text-slate-600 hover:bg-blue-50 hover:text-blue-600 ">
+              Settings
+            </a>
+            <button type="button" class=" flex cursor-pointer w-full items-center rounded-xl px-3 py-2.5 text-left text-sm text-red-500 hover:bg-red-50 "> Sign out </button>
+          </div>
           }
-
         </div>
-
       </div>
-
     </header>
 
-
-    <!-- ======================================== -->
     <!-- PAGE CONTENT -->
-    <!-- ======================================== -->
-
-    <main
-      class="
-        flex-1
-        overflow-y-auto
-        bg-[#f7faff]
-        p-4
-        sm:p-6
-        lg:p-8
-      "
-    >
-
+    <main class=" flex-1 overflow-y-auto bg-[#f7faff] p-4 sm:p-6 lg:p-8 ">
       <router-outlet></router-outlet>
-
     </main>
-
   </div>
-
 </div>
