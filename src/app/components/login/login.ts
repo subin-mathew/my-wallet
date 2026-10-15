@@ -142,21 +142,6 @@ export class Login {
       case 'auth/wrong-password':
         return 'Incorrect password. Please try again.';
 
-      case 'auth/invalid-email':
-        return 'Please enter a valid email address.';
-
-      case 'auth/user-disabled':
-        return 'This account has been disabled.';
-
-      case 'auth/popup-closed-by-user':
-        return 'Google sign-in was cancelled.';
-
-      case 'auth/popup-blocked':
-        return 'Please allow popups to sign in with Google.';
-
-      case 'auth/network-request-failed':
-        return 'Network error. Please check your internet connection.';
-
       default:
         return 'Unable to sign in. Please try again.';
     }

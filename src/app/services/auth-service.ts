@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Auth, signInWithEmailAndPassword, signInWithPopup, User, GoogleAuthProvider, sendPasswordResetEmail, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import { Auth, signInWithEmailAndPassword, signInWithPopup, User, GoogleAuthProvider, sendPasswordResetEmail, createUserWithEmailAndPassword, updateProfile, signOut } from 'firebase/auth';
 
 import { firebaseAuth, firebaseStore } from '../config/firebase.config';
 import { email } from '@angular/forms/signals';
@@ -148,6 +148,10 @@ export class AuthService {
       console.error('Error updating profile completion status:', error);
       return false;
     }
+  }
+
+   async logout(): Promise<void> {
+    await signOut(firebaseAuth);
   }
 
 }
