@@ -1,5 +1,5 @@
 import { Timestamp } from 'firebase/firestore';
-import { AccountStatus, CurrencyCode, Provider, Role } from '../constants/application-constants';
+import { AccountStatus, CurrencyType, Provider, Role } from '../types/application-types';
 
 export interface UserProfile {
 
@@ -11,7 +11,7 @@ export interface UserProfile {
     provider: Provider;
     status: AccountStatus;
 
-    currency: CurrencyCode;
+    currency: CurrencyType;
     country?: string;
 
     isProfileCompleted: boolean;

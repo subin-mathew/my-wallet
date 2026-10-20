@@ -17,13 +17,14 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { AccountService } from '../../services/account-service';
 import { Timestamp } from 'firebase/firestore';
-import { Account } from '../../models/account';
 import { Router } from '@angular/router';
 import { toast } from 'ngx-sonner';
 import { CurrencyUtils } from '../../utils/currency-utils';
 import { ErrorMessages } from '../../enums/error-messages';
 import { SuccessMessages } from '../../enums/success-messages';
 import { ValidationMessages } from '../../enums/validation-messages';
+import { AccountType } from '../../types/application-types';
+import { Account } from '../../models/account';
 
 @Component({
   selector: 'app-onboarding',
@@ -88,7 +89,7 @@ export class Onboarding {
   ];
 
   // Account 
-  selectedAccount = 'bank';
+  selectedAccount:AccountType = 'BANK';
 
   // Onboarding Form 
   accountForm: FormGroup;
@@ -133,7 +134,7 @@ export class Onboarding {
   }
 
   // Account Selection 
-  selectAccount(type: string): void {
+  selectAccount(type: AccountType): void {
     this.selectedAccount = type;
     // Reset all form values and validation states
     this.accountForm.reset({
@@ -213,21 +214,21 @@ export class Onboarding {
     const now = Timestamp.now();
     const account: Account = {
       accountName: accountFormValue.accountName,
-      accountType: this.selectedAccount,
+      accountType:this.selectedAccount,
+      accountStatus:"ACTIVE",
       balanceMinor: CurrencyUtils.toAmountMinor(accountFormValue.balance,2),
-      isActive: true,
       createdAt: now,
       updatedAt: now
     }
 
     //Bank 
-    if (this.selectedAccount === 'bank') {
+    if (this.selectedAccount === 'BANK') {
       account.bankAccountType = accountFormValue.bankAccountType;
       account.bankName = accountFormValue.bankName;
     }
 
     //Credit Card 
-    if (this.selectedAccount === 'credit-card') {
+    if (this.selectedAccount === 'CREDIT_CARD') {
       account.bankName = accountFormValue.bankName;
       account.creditLimitMinor = CurrencyUtils.toAmountMinor(accountFormValue.creditLimit,2);
       account.currentOutstandingMinor = CurrencyUtils.toAmountMinor(accountFormValue.currentOutstanding,2);
@@ -251,7 +252,7 @@ export class Onboarding {
     // Step 2: Apply validators for the selected account type
     switch (this.selectedAccount) {
 
-      case 'bank':
+      case 'BANK':
 
         this.accountForm.get('accountName')?.setValidators([
           Validators.required
@@ -272,7 +273,7 @@ export class Onboarding {
 
         break;
 
-      case 'credit-card':
+      case 'CREDIT_CARD':
         this.accountForm.get('accountName')?.setValidators([
           Validators.required
         ]);
@@ -302,7 +303,7 @@ export class Onboarding {
 
         break;
 
-      case 'cash':
+      case 'CASH':
 
         this.accountForm.get('accountName')?.setValidators([
           Validators.required
@@ -315,7 +316,7 @@ export class Onboarding {
 
         break;
 
-      case 'digital-wallet':
+      case 'DIGITAL_WALLET':
 
         this.accountForm.get('accountName')?.setValidators([
           Validators.required

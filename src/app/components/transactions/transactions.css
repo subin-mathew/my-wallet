@@ -1,0 +1,7 @@
+.gap-1 {
+    gap: calc(var(--spacing) * 1);
+}
+
+.pl-5{
+    padding-left: calc(var(--spacing) * 5);
+}

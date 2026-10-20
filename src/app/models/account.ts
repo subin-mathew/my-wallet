@@ -1,20 +1,19 @@
 import { Timestamp } from 'firebase/firestore';
+import { AccountStatus, AccountType, BankAccountType } from '../types/application-types';
 
 export interface Account {
   id?: string;
-  accountType: string;
-  bankAccountType?: string;
+  accountType: AccountType;
   accountName?: string;
-  balanceMinor?: number;
   bankName?: string;
-  
+  bankAccountType?: BankAccountType;
+  balanceMinor?: number;
   creditLimitMinor?: number;
   currentOutstandingMinor?: number;
   minimumAmountDueMinor?: number;
   paymentDueDate?: Date;
-  
   walletProvider?: string;
-  isActive: boolean;
+  accountStatus: AccountStatus;
   createdAt: Timestamp;
   updatedAt: Timestamp;
 }

@@ -285,14 +285,14 @@
 
           <div class="mt-6 grid grid-cols-2 gap-2.5 sm:mt-7 md:grid-cols-4">
             <!-- BANK -->
-            <button type="button" (click)="selectAccount('bank')"
+            <button type="button" (click)="selectAccount('BANK')"
               class="group relative min-h-[115px] cursor-pointer rounded-2xl border p-3 text-left transition-all duration-200 hover:-translate-y-1 hover:shadow-lg sm:min-h-[125px] sm:p-4"
-              [class.border-blue-500]="selectedAccount === 'bank'" [class.bg-blue-50/40]="selectedAccount === 'bank'"
-              [class.shadow-md]="selectedAccount === 'bank'" [class.shadow-blue-100]="selectedAccount === 'bank'"
-              [class.border-slate-200]="selectedAccount !== 'bank'" [class.bg-white]="selectedAccount !== 'bank'"
-              [class.hover:border-blue-200]="selectedAccount !== 'bank'">
+              [class.border-blue-500]="selectedAccount === 'BANK'" [class.bg-blue-50/40]="selectedAccount === 'BANK'"
+              [class.shadow-md]="selectedAccount === 'BANK'" [class.shadow-blue-100]="selectedAccount === 'BANK'"
+              [class.border-slate-200]="selectedAccount !== 'BANK'" [class.bg-white]="selectedAccount !== 'BANK'"
+              [class.hover:border-blue-200]="selectedAccount !== 'BANK'">
 
-              @if (selectedAccount === 'bank') {
+              @if (selectedAccount === 'BANK') {
               <span
                 class="absolute right-2 top-2 flex h-5 w-5 items-center justify-center rounded-full bg-blue-600 text-white sm:right-3 sm:top-3 sm:h-6 sm:w-6">
                 <fa-icon [icon]="faCheck" class="text-[9px] sm:text-xs"> </fa-icon>
@@ -308,17 +308,17 @@
 
 
             <!-- CREDIT CARD -->
-            <button type="button" (click)="selectAccount('credit-card')"
+            <button type="button" (click)="selectAccount('CREDIT_CARD')"
               class="group cursor-pointer relative min-h-[115px] rounded-2xl border p-3 text-left transition-all duration-200 hover:-translate-y-1 hover:shadow-lg sm:min-h-[125px] sm:p-4"
-              [class.border-blue-500]="selectedAccount === 'credit-card'"
-              [class.bg-blue-50/40]="selectedAccount === 'credit-card'"
-              [class.shadow-md]="selectedAccount === 'credit-card'"
-              [class.shadow-blue-100]="selectedAccount === 'credit-card'"
-              [class.border-slate-200]="selectedAccount !== 'credit-card'"
-              [class.bg-white]="selectedAccount !== 'credit-card'"
-              [class.hover:border-blue-200]="selectedAccount !== 'credit-card'">
+              [class.border-blue-500]="selectedAccount === 'CREDIT_CARD'"
+              [class.bg-blue-50/40]="selectedAccount === 'CREDIT_CARD'"
+              [class.shadow-md]="selectedAccount === 'CREDIT_CARD'"
+              [class.shadow-blue-100]="selectedAccount === 'CREDIT_CARD'"
+              [class.border-slate-200]="selectedAccount !== 'CREDIT_CARD'"
+              [class.bg-white]="selectedAccount !== 'CREDIT_CARD'"
+              [class.hover:border-blue-200]="selectedAccount !== 'CREDIT_CARD'">
 
-              @if (selectedAccount === 'credit-card') {
+              @if (selectedAccount === 'CREDIT_CARD') {
               <span
                 class="absolute right-2 top-2 flex h-5 w-5 items-center justify-center rounded-full bg-blue-600 text-white sm:right-3 sm:top-3 sm:h-6 sm:w-6">
 
@@ -346,14 +346,14 @@
 
 
             <!-- CASH -->
-            <button type="button" (click)="selectAccount('cash')"
+            <button type="button" (click)="selectAccount('CASH')"
               class="group cursor-pointer relative min-h-[115px] rounded-2xl border p-3 text-left transition-all duration-200 hover:-translate-y-1 hover:shadow-lg sm:min-h-[125px] sm:p-4"
-              [class.border-blue-500]="selectedAccount === 'cash'" [class.bg-blue-50/40]="selectedAccount === 'cash'"
-              [class.shadow-md]="selectedAccount === 'cash'" [class.shadow-blue-100]="selectedAccount === 'cash'"
-              [class.border-slate-200]="selectedAccount !== 'cash'" [class.bg-white]="selectedAccount !== 'cash'"
-              [class.hover:border-blue-200]="selectedAccount !== 'cash'">
+              [class.border-blue-500]="selectedAccount === 'CASH'" [class.bg-blue-50/40]="selectedAccount === 'CASH'"
+              [class.shadow-md]="selectedAccount === 'CASH'" [class.shadow-blue-100]="selectedAccount === 'CASH'"
+              [class.border-slate-200]="selectedAccount !== 'CASH'" [class.bg-white]="selectedAccount !== 'CASH'"
+              [class.hover:border-blue-200]="selectedAccount !== 'CASH'">
 
-              @if (selectedAccount === 'cash') {
+              @if (selectedAccount === 'CASH') {
               <span
                 class="absolute right-2 top-2 flex h-5 w-5 items-center justify-center rounded-full bg-blue-600 text-white sm:right-3 sm:top-3 sm:h-6 sm:w-6">
 
@@ -381,17 +381,17 @@
 
 
             <!-- DIGITAL WALLET -->
-            <button type="button" (click)="selectAccount('digital-wallet')"
+            <button type="button" (click)="selectAccount('DIGITAL_WALLET')"
               class="group cursor-pointer relative min-h-[115px] rounded-2xl border p-3 text-left transition-all duration-200 hover:-translate-y-1 hover:shadow-lg sm:min-h-[125px] sm:p-4"
-              [class.border-blue-500]="selectedAccount === 'digital-wallet'"
-              [class.bg-blue-50/40]="selectedAccount === 'digital-wallet'"
-              [class.shadow-md]="selectedAccount === 'digital-wallet'"
-              [class.shadow-blue-100]="selectedAccount === 'digital-wallet'"
-              [class.border-slate-200]="selectedAccount !== 'digital-wallet'"
-              [class.bg-white]="selectedAccount !== 'digital-wallet'"
-              [class.hover:border-blue-200]="selectedAccount !== 'digital-wallet'">
+              [class.border-blue-500]="selectedAccount === 'DIGITAL_WALLET'"
+              [class.bg-blue-50/40]="selectedAccount === 'DIGITAL_WALLET'"
+              [class.shadow-md]="selectedAccount === 'DIGITAL_WALLET'"
+              [class.shadow-blue-100]="selectedAccount === 'DIGITAL_WALLET'"
+              [class.border-slate-200]="selectedAccount !== 'DIGITAL_WALLET'"
+              [class.bg-white]="selectedAccount !== 'DIGITAL_WALLET'"
+              [class.hover:border-blue-200]="selectedAccount !== 'DIGITAL_WALLET'">
 
-              @if (selectedAccount === 'digital-wallet') {
+              @if (selectedAccount === 'DIGITAL_WALLET') {
               <span
                 class="absolute right-2 top-2 flex h-5 w-5 items-center justify-center rounded-full bg-blue-600 text-white sm:right-3 sm:top-3 sm:h-6 sm:w-6">
 
@@ -436,11 +436,11 @@
                 <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-blue-50 sm:h-10 sm:w-10">
 
                   <img [src]="
-                                    selectedAccount === 'bank'
+                                    selectedAccount === 'BANK'
                                         ? '/images/bank.png'
-                                        : selectedAccount === 'credit-card'
+                                        : selectedAccount === 'CREDIT_CARD'
                                         ? '/images/card.png'
-                                        : selectedAccount === 'cash'
+                                        : selectedAccount === 'CASH'
                                         ? '/images/cash.png'
                                         : '/images/wallet.png'
                                 " alt="Account type" class="h-6 w-6 object-contain sm:h-7 sm:w-7" />
@@ -453,11 +453,11 @@
                   <h3 class="truncate text-sm font-bold text-[#122c60] sm:text-lg">
 
                     {{
-                    selectedAccount === 'bank'
+                    selectedAccount === 'BANK'
                     ? 'Bank Account Details'
-                    : selectedAccount === 'credit-card'
+                    : selectedAccount === 'CREDIT_CARD'
                     ? 'Credit Card Details'
-                    : selectedAccount === 'cash'
+                    : selectedAccount === 'CASH'
                     ? 'Cash Details'
                     : 'Digital Wallet Details'
                     }}
@@ -468,11 +468,11 @@
 
                     Enter your
                     {{
-                    selectedAccount === 'bank'
+                    selectedAccount === 'BANK'
                     ? 'bank account'
-                    : selectedAccount === 'credit-card'
+                    : selectedAccount === 'CREDIT_CARD'
                     ? 'credit card'
-                    : selectedAccount === 'cash'
+                    : selectedAccount === 'CASH'
                     ? 'cash'
                     : 'digital-wallet'
                     }}
@@ -490,7 +490,7 @@
 
 
                 <!-- BANK -->
-                @if (selectedAccount === 'bank') {
+                @if (selectedAccount === 'BANK') {
 
                 <div class="mt-2 grid grid-cols-1 gap-4 sm:mt-5 sm:gap-5 md:grid-cols-2">
 
@@ -598,7 +598,7 @@
 
 
                 <!-- CREDIT CARD -->
-                @if (selectedAccount === 'credit-card') {
+                @if (selectedAccount === 'CREDIT_CARD') {
 
                 <div class="mt-2 grid grid-cols-1 gap-4 sm:mt-5 sm:gap-5 md:grid-cols-2">
 
@@ -713,7 +713,7 @@
 
 
                 <!-- CASH -->
-                @if (selectedAccount === 'cash') {
+                @if (selectedAccount === 'CASH') {
 
                 <div class="mt-2 grid grid-cols-1 gap-4 sm:mt-5 sm:gap-5 md:grid-cols-2">
 
@@ -760,7 +760,7 @@
 
 
                 <!-- DIGITAL WALLET -->
-                @if (selectedAccount === 'digital-wallet') {
+                @if (selectedAccount === 'DIGITAL_WALLET') {
 
                 <div class="mt-2 grid grid-cols-1 gap-4 sm:mt-5 sm:gap-5 md:grid-cols-2">
 

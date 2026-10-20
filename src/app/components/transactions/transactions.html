@@ -1,1 +1,516 @@
-<p>transactions works!</p>
+<div id="transaction-component">
+  <div class="flex items-center justify-between p-2">
+    <!-- Left: Page title and description -->
+    <div class="min-w-0">
+      <h1 class="text-xl font-bold tracking-tight text-[#102a68]"> Transactions </h1>
+      <p class="text-xs text-slate-500">Monitor and manage all your financial transactions.</p>
+    </div>
+    <!-- Right: Action buttons -->
+    <div class="flex shrink-0 items-center gap-2">
+      <!--Add Transaction Button-->
+      <button type="button" title="Add Transaction" (click)="openCreateTransaction()" class="group relative inline-flex h-9 items-center justify-center gap-2 cursor-pointer rounded-md bg-blue-600 px-2.5 sm:px-3
+                            text-xs font-medium text-white shadow-sm transition-colors hover:bg-blue-700 focus-visible:outline-none 
+                            focus-visible:ring-2 focus-visible:ring-blue-300">
+        <fa-icon [icon]="icons.plus"></fa-icon>
+        <span class="hidden md:inline">Add Transaction</span>
+      </button>
+      <!--Export Transaction Button-->
+      <button type="button" title="Export Transactions" class="group relative inline-flex h-9 items-center justify-center gap-2 rounded-md border border-slate-200 bg-white px-2.5 sm:px-3
+                            text-xs font-medium text-slate-700 transition-colors cursor-pointer hover:bg-slate-50 focus-visible:outline-none 
+                            focus-visible:ring-2 focus-visible:ring-blue-200">
+        <fa-icon [icon]="icons.download"></fa-icon>
+        <span class="hidden md:inline">Export</span>
+      </button>
+    </div>
+  </div>
+  <div class="flex">
+    <table class="w-full min-w-[680px] text-left text-xs">
+      <thead class="bg-slate-50 text-[11px] font-semibold
+                        uppercase tracking-wide text-slate-500">
+        <tr>
+          <th class="px-4 py-3">Transaction</th>
+          <th class="px-4 py-3">Category</th>
+          <th class="px-4 py-3">Date</th>
+          <th class="px-4 py-3">Account</th>
+          <th class="px-4 py-3 text-right">Amount</th>
+          <th class="px-4 py-3 text-center">Actions</th>
+        </tr>
+      </thead>
+
+      <tbody class="divide-y divide-slate-100">
+        @for (item of transactions(); track item.id) {
+        <tr class="transition-colors hover:bg-slate-50">
+
+          <td class="px-4 py-3">
+            <div class="flex items-center gap-3">
+              <div class="flex h-9 w-9 shrink-0 items-center justify-center
+                             rounded-lg" [ngClass]="item.type === 'EXPENSE'
+                        ? 'bg-red-50 text-red-600'
+                        : 'bg-emerald-50 text-emerald-600'">
+                <fa-icon [icon]="item.type === 'EXPENSE'
+                          ? icons.expense : icons.income">
+                </fa-icon>
+              </div>
+              <div class="min-w-0">
+                <p class="max-w-48 truncate font-semibold text-slate-800">
+                  {{ item.name }}
+                </p>
+                <p class="mt-1 text-[10px] text-slate-500">
+                  {{ item.paymentMode }}
+                </p>
+              </div>
+            </div>
+          </td>
+
+          <td class="px-4 py-3 text-slate-600">
+            Category
+          </td>
+
+          <td class="whitespace-nowrap px-4 py-3 text-slate-600">
+            {{ item.transactionDate.toDate() | date:'dd MMM yyyy' }}
+          </td>
+
+          <td class="px-4 py-3 text-slate-600">
+            Account
+          </td>
+
+          <td class="whitespace-nowrap px-4 py-3 text-right">
+            <span class="font-semibold" [ngClass]="item.type === 'EXPENSE'
+                      ? 'text-red-600' : 'text-emerald-600'">
+              {{ item.type === 'EXPENSE' ? '−' : '+' }}
+              {{ item.amountMinor / 100 | currency:'INR':'symbol':'1.2-2' }}
+            </span>
+          </td>
+
+          <td class="px-4 py-3">
+            <div class="flex items-center justify-center gap-1">
+              <button type="button" title="View transaction" aria-label="View transaction"
+                (click)="openViewTransaction(item)" class="flex h-8 w-8 items-center justify-center
+                             rounded-md text-slate-500 hover:bg-blue-50
+                             hover:text-blue-600">
+                <fa-icon [icon]="icons.view"></fa-icon>
+              </button>
+
+              <button type="button" title="Edit transaction" aria-label="Edit transaction"
+                (click)="openUpdateTransaction(item)" class="flex h-8 w-8 items-center justify-center
+                             rounded-md text-slate-500 hover:bg-amber-50
+                             hover:text-amber-600">
+                <fa-icon [icon]="icons.edit"></fa-icon>
+              </button>
+            </div>
+          </td>
+
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!--Add/Update/View Transactions Modal-->
+@if(transactionModal){
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/45 p-3 backdrop-blur-[2px] sm:p-5"
+  (click)="closeTransactionModal()">
+  <section role="dialog" aria-modal="true" aria-labelledby="transaction-title"
+    class="flex max-h-[94dvh] w-full max-w-2xl flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl"
+    (click)="$event.stopPropagation()">
+    <!-- Modal Header -->
+    <header class="flex shrink-0 items-center justify-between border-b border-slate-100 px-5 py-4 sm:px-6">
+      <div class="flex min-w-0 items-center gap-3">
+        <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-blue-700">
+          @if (transactionFormMode === 'CREATE') {
+          <fa-icon [icon]="icons.plus" size="lg"></fa-icon>
+          } @else if (transactionFormMode === 'UPDATE') {
+          <fa-icon [icon]="icons.edit" size="lg"></fa-icon>
+          } @else {
+          <fa-icon [icon]="icons.view" size="lg"></fa-icon>
+          }
+        </div>
+        <div class="min-w-0">
+          <h2 id="transaction-title" class="text-base font-bold text-[#102a68] sm:text-lg"> {{ modalTitle }}
+          </h2>
+          <p class="mt-0.5 text-xs text-slate-500">
+            @if (transactionFormMode === 'CREATE') {
+            Record a new transaction.
+            } @else if (transactionFormMode === 'UPDATE') {
+            Modify transaction details.
+            } @else {
+            Review transaction details and activity.
+            }
+          </p>
+        </div>
+      </div>
+      <button type="button" aria-label="Close modal" (click)="closeTransactionModal()"
+        class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-800">
+        <fa-icon [icon]="icons.close"></fa-icon>
+      </button>
+    </header>
+    <!-- Scrollable Modal Body -->
+    <div class="min-h-0 flex-1 overflow-y-auto px-5 py-5 sm:px-6">
+      @if (!isReadOnly) {
+      <form id="transactionForm" #transactionFormRef="ngForm" (ngSubmit)="saveTransaction(transactionFormRef)"
+        class="space-y-4">
+        <!-- Expense / Income Toggle -->
+        <div class="mb-6 grid grid-cols-2 gap-3">
+          <button type="button" [disabled]="isReadOnly" (click)="setTransactionType('EXPENSE')"
+            class="flex h-10 items-center justify-center gap-2 rounded-full text-sm font-medium transition-colors disabled:cursor-default"
+            [ngClass]="transaction.type === 'EXPENSE' ? isReadOnly ? 'bg-red-50 text-red-600 ring-1 ring-red-100' : 'bg-blue-600 text-white shadow-sm' : 'bg-slate-50 text-slate-600 hover:bg-slate-100'">
+            <fa-icon [icon]="icons.expense"></fa-icon>
+            Expense
+          </button>
+          <button type="button" [disabled]="isReadOnly" (click)="setTransactionType('INCOME')"
+            class="flex h-10 items-center justify-center gap-2 rounded-full text-sm font-medium transition-colors disabled:cursor-default"
+            [ngClass]="transaction.type === 'INCOME' ? isReadOnly ? 'bg-emerald-50 text-emerald-700 ring-1 ring-emerald-100' : 'bg-blue-600 text-white shadow-sm' : 'bg-slate-50 text-slate-600 hover:bg-slate-100'">
+            <fa-icon [icon]="icons.income"></fa-icon>
+            Income
+          </button>
+        </div>
+        <!-- Transaction Name -->
+        <div class="mb-5">
+          <label for="name" class="mb-1.5 block text-xs font-semibold text-slate-800"> Transaction
+            Name <span class="text-red-500">*</span> </label>
+          <input id="name" name="name" type="text" [(ngModel)]="transaction.name" #nameField="ngModel" required
+            maxlength="100" placeholder="e.g., Groceries, Fuel, Salary" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-800 outline-none
+                        transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+            [class.border-red-400]="nameField.invalid && nameField.touched">
+          @if (nameField.invalid && nameField.touched) {
+          <p class="mt-1 text-xs text-red-500"> Please enter a transaction name. </p>
+          }
+        </div>
+        <!-- Category, Account and Mode -->
+        <div class="mb-5 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div>
+            <label for="categoryId" class="mb-1.5 block text-xs font-semibold text-slate-800"> Category <span
+                class="text-red-500">*</span> </label>
+            <div class="relative">
+              <fa-icon [icon]="icons.category"
+                class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-500">
+              </fa-icon>
+              <select id="categoryId" name="categoryId" [(ngModel)]="transaction.categoryId" required class="w-full appearance-none rounded-lg border border-slate-200 bg-white py-2.5 pl-9 pr-9 text-sm text-slate-700 outline-none
+                                            focus:border-blue-500 focus:ring-2 focus:ring-blue-100">
+                <option value="" disabled>Select category</option>
+                <option value="category001">category</option>
+                <!-- @for (category of categories; track category) {
+                <option [value]="category">{{ category }}</option>
+                }-->
+              </select>
+              <fa-icon [icon]="icons.down"
+                class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-500">
+              </fa-icon>
+            </div>
+          </div>
+          <div>
+            <label for="accountId" class="mb-1.5 block text-xs font-semibold text-slate-800"> Account <span
+                class="text-red-500">*</span> </label>
+            <div class="relative">
+              <fa-icon [icon]="icons.account"
+                class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-500">
+              </fa-icon>
+              <select id="accountId" name="accountId" [(ngModel)]="transaction.accountId" required class="w-full appearance-none rounded-lg border border-slate-200 bg-white py-2.5 pl-9 pr-9 text-sm text-slate-700 outline-none
+                                            focus:border-blue-500 focus:ring-2 focus:ring-blue-100">
+                <option value="" disabled>Select account</option>
+                <!-- @for (account of accounts; track account) {
+                <option [value]="account">{{ account }}</option>
+                }-->
+                <option value="ICIC">ICIC</option>
+              </select>
+              <fa-icon [icon]="icons.down"
+                class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-500">
+              </fa-icon>
+            </div>
+          </div>
+          <!-- Payment Mode and Transfer -->
+          <div>
+            <label for="paymentMode" class="mb-1.5 block text-xs font-semibold text-slate-800">
+              Mode
+            </label>
+
+            <div class="relative">
+              <fa-icon [icon]="icons.card" class="pointer-events-none absolute left-3 top-1/2
+                                  -translate-y-1/2 text-slate-500">
+              </fa-icon>
+
+              <select id="paymentMode" name="paymentMode" [(ngModel)]="transaction.paymentMode" class="w-full appearance-none rounded-lg border
+                           border-slate-200 bg-white py-2.5 pl-9 pr-9
+                           text-sm text-slate-700 outline-none
+                           focus:border-blue-500 focus:ring-2
+                           focus:ring-blue-100">
+                <option value="" disabled>Select mode</option>
+                <!-- @for (mode of paymentModes; track mode) {
+                <option [value]="mode">{{ mode }}</option>
+                } -->
+                <option value="mode">UPI</option>
+              </select>
+
+              <fa-icon [icon]="icons.down" class="pointer-events-none absolute right-3 top-1/2
+                                  -translate-y-1/2 text-xs text-slate-500">
+              </fa-icon>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Description -->
+        <div class="mb-5">
+          <label for="description" class="mb-1.5 block text-xs font-semibold text-slate-800">
+            Description
+          </label>
+
+          <textarea id="description" name="description" [(ngModel)]="transaction.description" rows="2" maxlength="500"
+            placeholder="Add a note (optional)..." class="w-full resize-y rounded-lg border border-slate-200
+                       bg-white px-3 py-2.5 text-sm text-slate-700
+                       outline-none focus:border-blue-500
+                       focus:ring-2 focus:ring-blue-100">
+              </textarea>
+        </div>
+
+        <!-- Date and Time -->
+        <div class="mb-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <div>
+            <label for="transactionDate" class="mb-1.5 block text-xs font-semibold text-slate-800">
+              Date <span class="text-red-500">*</span>
+            </label>
+
+            <div class="relative">
+              <fa-icon [icon]="icons.date" class="pointer-events-none absolute left-3 top-1/2
+                                  -translate-y-1/2 text-slate-500">
+              </fa-icon>
+
+              <input id="transactionDate" name="date" type="date" [(ngModel)]="transaction.date" required class="w-full rounded-lg border border-slate-200
+                           bg-white py-2.5 pl-9 pr-3 text-sm text-slate-700
+                           outline-none focus:border-blue-500
+                           focus:ring-2 focus:ring-blue-100">
+            </div>
+          </div>
+
+          <div>
+            <label for="transactionTime" class="mb-1.5 block text-xs font-semibold text-slate-800">
+              Time <span class="text-red-500">*</span>
+            </label>
+
+            <div class="relative">
+              <fa-icon [icon]="icons.time" class="pointer-events-none absolute left-3 top-1/2
+                                  -translate-y-1/2 text-slate-500">
+              </fa-icon>
+
+              <input id="transactionTime" name="time" type="time" [(ngModel)]="transaction.time" required class="w-full rounded-lg border border-slate-200
+                           bg-white py-2.5 pl-9 pr-3 text-sm text-slate-700
+                           outline-none focus:border-blue-500
+                           focus:ring-2 focus:ring-blue-100">
+            </div>
+          </div>
+        </div>
+
+        <!-- Amount and Currency -->
+        <div class="mb-5">
+          <label for="amount" class="mb-1.5 block text-xs font-semibold text-slate-800">
+            Amount <span class="text-red-500">*</span>
+          </label>
+
+          <div class="flex overflow-hidden rounded-lg border
+                          border-slate-200 transition focus-within:border-blue-500
+                          focus-within:ring-2 focus-within:ring-blue-100">
+
+            <div class="flex items-center pl-3 text-slate-600">
+              <fa-icon [icon]="icons.rupee"></fa-icon>
+            </div>
+
+            <input id="amount" name="amount" type="number" [(ngModel)]="transaction.amount" #amountField="ngModel"
+              required min="0.01" step="0.01" placeholder="Enter amount" class="min-w-0 flex-1 border-0 bg-white px-3 py-2.5
+                         text-sm text-slate-800 outline-none focus:ring-0">
+
+            <input name="currency" [(ngModel)]="transaction.currency" value="INR" disabled
+              class="text-center w-24 shrink-0 border-0 border-l border-slate-100 bg-white px-2 text-sm font-medium text-slate-700 outline-none focus:ring-0">
+          </div>
+
+          @if (amountField.invalid && amountField.touched) {
+          <p class="mt-1 text-xs text-red-500">
+            Enter an amount greater than zero.
+          </p>
+          }
+        </div>
+
+
+      </form>
+      } @else {
+      <!-- Read-only Transaction Details -->
+      <div class="min-h-0 flex-1 space-y-5 overflow-y-auto">
+        <div class="flex flex-col justify-between gap-5 rounded-xl border p-4 sm:flex-row sm:items-center sm:p-5"
+          [ngClass]="transaction.type === 'EXPENSE' ? 'border-red-100 bg-red-50/70' : 'border-green-100 bg-green-50/70'">
+          <div class="flex min-w-0 items-start gap-4">
+            <div class="flex h-14 w-14 shrink-0 items-center justify-center rounded-full text-xl"
+              [ngClass]="transaction.type === 'EXPENSE' ? 'bg-red-100 text-red-600' : 'bg-green-100 text-green-600'">
+              <fa-icon [icon]="icons.utensils"></fa-icon>
+            </div>
+            <div class="min-w-0">
+              <span class="break-words text-xl font-bold text-slate-800"> {{ transaction.name }} </span>
+              <div class="flex gap-2">
+                <span
+                  class="inline-flex items-center gap-1 rounded-full px-3 py-1 text-[10px] font-semibold bg-red-100 text-red-600">
+                  <fa-icon [icon]="icons.tag"></fa-icon> {{ transaction.categoryId }} </span>
+                <span class="inline-flex items-center gap-1 rounded-full px-3 py-1 text-[10px] font-semibold"
+                  [ngClass]="transaction.type === 'EXPENSE'? 'bg-red-100 text-red-600': 'bg-green-100 text-green-700'">
+                  <fa-icon [icon]="transaction.type === 'EXPENSE' ? icons.expense : icons.income"></fa-icon>
+                  {{ transaction.type === 'EXPENSE' ? 'Expense' : 'Income' }}
+                </span>
+              </div>
+            </div>
+          </div>
+          <!-- Amount on the right -->
+          <div class="shrink-0 sm:text-right text-center">
+            <p class="mb-1 text-xs font-medium text-slate-500"> Transaction Amount </p>
+            <p class="whitespace-nowrap text-2xl font-bold tracking-tight sm:text-3xl"
+              [ngClass]="transaction.type === 'EXPENSE' ? 'text-red-600' : 'text-green-700'">
+              {{ transaction.type === 'EXPENSE' ? '−' : '+' }}
+              {{ transaction.amount | currency:'INR' }}
+            </p>
+          </div>
+        </div>
+        <!-- TRANSACTION DETAILS COLLAPSIBLE -->
+        <section class="overflow-hidden rounded-xl border border-slate-200">
+          <button type="button" class="flex w-full items-center justify-between gap-3
+                 px-2 py-2 text-left transition-colors
+                 hover:bg-slate-50 sm:px-6" [attr.aria-expanded]="transactionDetailsExpanded()"
+            (click)="toggleTransactionDetails()">
+            <span class="flex items-center gap-3">
+              <fa-icon [icon]="icons.files" class="text-lg text-[#102a68]"></fa-icon>
+              <span class="font-semibold text-slate-800">
+                Transaction Details
+              </span>
+            </span>
+            <fa-icon [icon]="transactionDetailsExpanded() ? icons.up : icons.down"
+              class="text-sm text-slate-500"></fa-icon>
+          </button>
+          @if (transactionDetailsExpanded()) {
+          <div class="grid grid-cols-1 gap-x-8 gap-y-6 border-t border-slate-200 p-5 sm:grid-cols-2 sm:p-6">
+            <!-- Date -->
+            <div>
+              <p class="mb-2 text-sm font-medium text-slate-500"> Transaction Date </p>
+              <div class="flex items-center gap-3 text-sm font-medium text-slate-800">
+                <fa-icon [icon]="icons.date" class="text-base text-slate-400"></fa-icon>
+                <span>{{ transaction.date | date:'medium' }}</span>
+              </div>
+            </div>
+            <!-- Category -->
+            <div>
+              <p class="mb-2 text-sm font-medium text-slate-500"> Category </p>
+              <div class="flex items-center gap-3 text-sm font-medium text-slate-800">
+                <fa-icon [icon]="icons.tag" class="text-slate-400"></fa-icon>
+                <span>{{ transaction.categoryId }}</span>
+              </div>
+            </div>
+            <!-- Account -->
+            <div>
+              <p class="mb-2 text-sm font-medium text-slate-500"> Account </p>
+              <div class="flex items-center gap-3 text-sm font-medium text-slate-800">
+                <fa-icon [icon]="icons.account" class="text-slate-400"></fa-icon>
+                <span>{{ transaction.accountId || '—' }}</span>
+              </div>
+            </div>
+            <!-- Payment mode -->
+            <div>
+              <p class="mb-2 text-sm font-medium text-slate-500"> Payment Mode </p>
+              <div class="flex items-center gap-3 text-sm font-medium text-slate-800">
+                <fa-icon [icon]="icons.card" class="text-slate-400"></fa-icon>
+                {{ transaction.paymentMode }}
+              </div>
+            </div>
+          </div>
+          <!-- Description -->
+          <div class="sm:pl-5 pl-5 mb-7">
+            <p class="mb-2 text-sm font-medium text-slate-500"> Description </p>
+            <div class="flex items-start gap-3 text-sm font-medium text-slate-800">
+              <fa-icon [icon]="icons.files" class="mt-0.5 text-slate-400"></fa-icon>
+              <span class="break-words">
+                {{ transaction.description || '—' }}
+              </span>
+            </div>
+          </div>
+          }
+        </section>
+        <!-- ADDITIONAL DETAILS COLLAPSIBLE -->
+        <section class="overflow-hidden rounded-xl border border-slate-200">
+          <button type="button"
+            class="flex w-full items-center justify-between gap-3 px-2 py-2 text-left transition-colors hover:bg-slate-50 sm:px-6"
+            [attr.aria-expanded]="additionalDetailsExpanded()" (click)="toggleAdditionalDetails()">
+            <span class="flex items-center gap-3">
+              <fa-icon [icon]="icons.paperclip" class="text-lg text-[#102a68]"></fa-icon>
+              <span class="font-semibold text-slate-800"> Additional Details </span>
+            </span>
+            <fa-icon [icon]="additionalDetailsExpanded() ? icons.up : icons.down"
+              class="text-sm text-slate-500"></fa-icon>
+          </button>
+
+          @if (additionalDetailsExpanded()) {
+          <div class="grid gap-x-8 gap-y-6 border-t border-slate-200 p-4 sm:p-5">
+            <!-- Transaction ID -->
+            <div>
+              <p class="mb-2 text-sm font-medium text-slate-500"> Transaction Id</p>
+              <div class="flex items-center gap-3 text-sm font-medium text-slate-800">
+                <fa-icon [icon]="icons.tag" class="text-slate-400"></fa-icon>
+                <span class="break-all">{{ transaction.id || '—' }}</span>
+              </div>
+            </div>
+            <!-- Created Timestamp-->
+            <div>
+              <p class="mb-2 text-sm font-medium text-slate-500"> Created At </p>
+              <div class="flex items-center gap-3 text-sm font-medium text-slate-800">
+                <fa-icon [icon]="icons.date" class="text-slate-400"></fa-icon>
+                <!-- <span class="break-all">{{ transaction.createdAt || '—' }}</span> -->
+              </div>
+            </div>
+            <!-- Updated Timestamp-->
+            <div>
+              <p class="mb-2 text-sm font-medium text-slate-500"> Last Updated </p>
+              <div class="flex items-center gap-3 text-sm font-medium text-slate-800">
+                <fa-icon [icon]="icons.date" class="text-slate-400"></fa-icon>
+                <!-- <span class="break-all">{{ transaction.updatedAt || '—' }}</span> -->
+              </div>
+            </div>
+          </div>
+          }
+        </section>
+      </div>
+      }
+    </div>
+    <!-- Modal Footer -->
+    <footer
+      class="flex shrink-0 flex-col-reverse gap-2 border-t border-slate-100 bg-white px-3 py-3 sm:flex-row sm:justify-end sm:px-4">
+      @if (isReadOnly) {
+      <!-- Delete button -->
+      <button type="button" class="inline-flex border border-red-300 font-semibold text-red-600 transition-colors hover:bg-red-50 items-center justify-center gap-1 cursor-pointer rounded-md px-2.5 sm:px-3
+              text-xs h-8">
+        <fa-icon [icon]="icons.trash"></fa-icon>
+        Delete Transaction
+      </button>
+      <div class="flex flex-col gap-3 sm:flex-row">
+        <!-- View button -->
+        <button type="button" class="h-8 inline-flex border border-red-300 font-semibold text-red-600 transition-colors hover:bg-red-50 items-center justify-center gap-1 cursor-pointer rounded-md px-2.5 sm:px-3
+              text-xs">
+          <fa-icon [icon]="icons.edit"></fa-icon>
+          Edit Transaction
+        </button>
+
+        <!-- Close button -->
+        <button type="button" (click)="closeTransactionModal()" class="h-8 inline-flex border border-red-300 font-semibold text-red-600 transition-colors hover:bg-red-50 items-center justify-center gap-1 cursor-pointer rounded-md px-2.5 sm:px-3
+              text-xs">
+          Cancel
+        </button>
+      </div>
+      } @else {
+      <button type="button" (click)="closeTransactionModal()" class="inline-flex border border-red-300 font-semibold text-red-600 transition-colors hover:bg-red-50 items-center justify-center gap-1 cursor-pointer rounded-md px-2.5 sm:px-3
+              text-xs h-8">Cancel</button>
+
+      <button type="submit" form="transactionForm" class="h-8 inline-flex border border-red-300 font-semibold text-red-600 transition-colors hover:bg-red-50 items-center justify-center gap-1 cursor-pointer rounded-md px-2.5 sm:px-3
+              text-xs">
+        @if (transactionFormMode === 'CREATE') {
+        <fa-icon [icon]="icons.plus"></fa-icon>Save Transaction
+        } @else {
+        <fa-icon [icon]="icons.edit"></fa-icon>Update Transaction
+        }
+      </button>
+      }
+    </footer>
+  </section>
+</div>
+}
