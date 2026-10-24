@@ -3,7 +3,7 @@
     <!-- Left: Page title and description -->
     <div class="min-w-0">
       <h1 class="text-xl font-bold tracking-tight text-[#102a68]"> Transactions </h1>
-      <p class="text-xs text-slate-500">Monitor and manage all your financial transactions.</p>
+      <p class="text-xs text-slate-500">Monitor and manage all the transactions.</p>
     </div>
     <!-- Right: Action buttons -->
     <div class="flex shrink-0 items-center gap-2">
@@ -121,9 +121,9 @@
           @if (transactionFormMode === 'CREATE') {
           <fa-icon [icon]="icons.plus" size="lg"></fa-icon>
           } @else if (transactionFormMode === 'UPDATE') {
-          <fa-icon [icon]="icons.edit" size="lg"></fa-icon>
+          <fa-icon [icon]="icons.pencil" size="lg"></fa-icon>
           } @else {
-          <fa-icon [icon]="icons.view" size="lg"></fa-icon>
+          <fa-icon [icon]="icons.receipt" size="lg"></fa-icon>
           }
         </div>
         <div class="min-w-0">
@@ -146,7 +146,7 @@
       </button>
     </header>
     <!-- Scrollable Modal Body -->
-    <div class="min-h-0 flex-1 overflow-y-auto px-5 py-5 sm:px-6">
+    <div class="min-h-0 flex-1 overflow-y-auto px-4 py-4 sm:px-6">
       @if (!isReadOnly) {
       <form id="transactionForm" #transactionFormRef="ngForm" (ngSubmit)="saveTransaction(transactionFormRef)"
         class="space-y-4">
@@ -264,8 +264,8 @@
               </textarea>
         </div>
 
-        <!-- Date and Time -->
-        <div class="mb-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <!-- Date,Time and Amount -->
+        <div class="mb-5 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <div>
             <label for="transactionDate" class="mb-1.5 block text-xs font-semibold text-slate-800">
               Date <span class="text-red-500">*</span>
@@ -299,38 +299,34 @@
                            focus:ring-2 focus:ring-blue-100">
             </div>
           </div>
-        </div>
+          <div class="mb-2">
+            <label for="amount" class="mb-1.5 block text-xs font-semibold text-slate-800">
+              Amount <span class="text-red-500">*</span>
+            </label>
 
-        <!-- Amount and Currency -->
-        <div class="mb-5">
-          <label for="amount" class="mb-1.5 block text-xs font-semibold text-slate-800">
-            Amount <span class="text-red-500">*</span>
-          </label>
-
-          <div class="flex overflow-hidden rounded-lg border
+            <div class="flex overflow-hidden rounded-lg border
                           border-slate-200 transition focus-within:border-blue-500
                           focus-within:ring-2 focus-within:ring-blue-100">
 
-            <div class="flex items-center pl-3 text-slate-600">
-              <fa-icon [icon]="icons.rupee"></fa-icon>
-            </div>
+              <div class="flex items-center pl-3 text-slate-600">
+                <fa-icon [icon]="icons.rupee"></fa-icon>
+              </div>
 
-            <input id="amount" name="amount" type="number" [(ngModel)]="transaction.amount" #amountField="ngModel"
-              required min="0.01" step="0.01" placeholder="Enter amount" class="min-w-0 flex-1 border-0 bg-white px-3 py-2.5
+              <input id="amount" name="amount" type="number" [(ngModel)]="transaction.amount" #amountField="ngModel"
+                required placeholder="Enter amount" class="min-w-0 flex-1 border-0 bg-white px-3 py-2.5
                          text-sm text-slate-800 outline-none focus:ring-0">
 
-            <input name="currency" [(ngModel)]="transaction.currency" value="INR" disabled
-              class="text-center w-24 shrink-0 border-0 border-l border-slate-100 bg-white px-2 text-sm font-medium text-slate-700 outline-none focus:ring-0">
+              <input name="currency" [(ngModel)]="transaction.currency" value="INR" disabled
+                class="text-center w-10 shrink-0 border-0 border-l border-slate-100 bg-white px-2 text-sm font-medium text-slate-700 outline-none focus:ring-0">
+            </div>
+
+            @if (amountField.invalid && amountField.touched) {
+            <p class="mt-1 text-xs text-red-500">
+              Enter an amount greater than zero.
+            </p>
+            }
           </div>
-
-          @if (amountField.invalid && amountField.touched) {
-          <p class="mt-1 text-xs text-red-500">
-            Enter an amount greater than zero.
-          </p>
-          }
         </div>
-
-
       </form>
       } @else {
       <!-- Read-only Transaction Details -->
@@ -388,7 +384,7 @@
               <p class="mb-2 text-sm font-medium text-slate-500"> Transaction Date </p>
               <div class="flex items-center gap-3 text-sm font-medium text-slate-800">
                 <fa-icon [icon]="icons.date" class="text-base text-slate-400"></fa-icon>
-                <span>{{ transaction.date | date:'medium' }}</span>
+                <span>{{ (transaction.transactionAt?.toDate() | date:'dd MMM yyyy, hh:mm a') || "-" }}</span>
               </div>
             </div>
             <!-- Category -->
@@ -456,7 +452,7 @@
               <p class="mb-2 text-sm font-medium text-slate-500"> Created At </p>
               <div class="flex items-center gap-3 text-sm font-medium text-slate-800">
                 <fa-icon [icon]="icons.date" class="text-slate-400"></fa-icon>
-                <!-- <span class="break-all">{{ transaction.createdAt || '—' }}</span> -->
+                <span>{{ (transaction.createdAt?.toDate() | date:'dd MMM yyyy, hh:mm a') || "-" }}</span>
               </div>
             </div>
             <!-- Updated Timestamp-->
@@ -464,7 +460,7 @@
               <p class="mb-2 text-sm font-medium text-slate-500"> Last Updated </p>
               <div class="flex items-center gap-3 text-sm font-medium text-slate-800">
                 <fa-icon [icon]="icons.date" class="text-slate-400"></fa-icon>
-                <!-- <span class="break-all">{{ transaction.updatedAt || '—' }}</span> -->
+                <span>{{ (transaction.updatedAt?.toDate() | date:'dd MMM yyyy, hh:mm a') || "-" }}</span>
               </div>
             </div>
           </div>
@@ -475,42 +471,90 @@
     </div>
     <!-- Modal Footer -->
     <footer
-      class="flex shrink-0 flex-col-reverse gap-2 border-t border-slate-100 bg-white px-3 py-3 sm:flex-row sm:justify-end sm:px-4">
+      class="shrink-0 flex-col-reverse gap-2 border-t border-slate-100 bg-white px-3 py-3 sm:flex-row sm:justify-end sm:px-4">
       @if (isReadOnly) {
-      <!-- Delete button -->
-      <button type="button" class="inline-flex border border-red-300 font-semibold text-red-600 transition-colors hover:bg-red-50 items-center justify-center gap-1 cursor-pointer rounded-md px-2.5 sm:px-3
-              text-xs h-8">
-        <fa-icon [icon]="icons.trash"></fa-icon>
-        Delete Transaction
-      </button>
-      <div class="flex flex-col gap-3 sm:flex-row">
-        <!-- View button -->
-        <button type="button" class="h-8 inline-flex border border-red-300 font-semibold text-red-600 transition-colors hover:bg-red-50 items-center justify-center gap-1 cursor-pointer rounded-md px-2.5 sm:px-3
-              text-xs">
-          <fa-icon [icon]="icons.edit"></fa-icon>
-          Edit Transaction
+
+      <div class="flex items-center justify-between gap-3">
+        <!-- Cancel: Neutral -->
+        <button type="button" (click)="closeTransactionModal()"
+          class="inline-flex h-9 items-center justify-center gap-2 rounded-lg border border-gray-300 bg-white px-4 text-xs font-semibold text-gray-700 transition-colors duration-200
+             hover:bg-gray-50 hover:border-gray-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-offset-2 active:bg-gray-100 cursor-pointer">
+          <span>Cancel</span>
         </button>
 
-        <!-- Close button -->
-        <button type="button" (click)="closeTransactionModal()" class="h-8 inline-flex border border-red-300 font-semibold text-red-600 transition-colors hover:bg-red-50 items-center justify-center gap-1 cursor-pointer rounded-md px-2.5 sm:px-3
-              text-xs">
-          Cancel
+        <!-- Right-side Actions -->
+        <div class="flex items-center gap-2">
+          <!-- Delete Transaction: Danger -->
+          <button type="button" (click)="openDeleteConfirmation(transaction)"
+            class="inline-flex h-9 items-center justify-center gap-2 rounded-lg bg-red-600 px-4 text-xs font-semibold text-white shadow-sm transition-colors duration-200 hover:bg-red-700
+           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 active:bg-red-800 cursor-pointer">
+            <fa-icon [icon]="icons.trash"></fa-icon>
+            <span>Delete Transaction</span>
+          </button>
+          <!-- Edit Transaction: Primary -->
+          <button type="button" (click)="openUpdateTransaction(toTransaction(transaction))"
+            class="inline-flex h-9 items-center justify-center gap-2 rounded-lg bg-blue-600 px-4 text-xs font-semibold text-white shadow-sm transition-colors duration-200 hover:bg-blue-700
+             focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 active:bg-blue-800 cursor-pointer">
+            <fa-icon [icon]="icons.pencil"></fa-icon>
+            <span>Edit Transaction</span>
+          </button>
+        </div>
+      </div>
+
+      } @else {
+      <div class="flex items-center justify-between gap-3">
+        <button type="button" (click)="closeTransactionModal()"
+          class="inline-flex h-9 items-center justify-center rounded-lg border border-gray-300 bg-white px-4
+                text-xs font-semibold text-gray-700 transition-colors duration-200 hover:bg-gray-50 hover:border-gray-400 focus-visible:outline-none focus-visible:ring-2
+                focus-visible:ring-gray-400 focus-visible:ring-offset-2 active:bg-gray-100 cursor-pointer">Cancel</button>
+
+        <button type="submit" form="transactionForm"
+          class="inline-flex h-9 items-center justify-center gap-2 rounded-lg bg-blue-600 px-4 text-xs font-semibold text-white shadow-sm transition-colors duration-200
+         hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 active:bg-blue-800 disabled:pointer-events-none disabled:opacity-50">
+          @if (transactionFormMode === 'CREATE') {
+          <fa-icon [icon]="icons.plus"></fa-icon>Add Transaction
+          } @else {
+          <fa-icon [icon]="icons.pencil"></fa-icon>Update Transaction
+          }
         </button>
       </div>
-      } @else {
-      <button type="button" (click)="closeTransactionModal()" class="inline-flex border border-red-300 font-semibold text-red-600 transition-colors hover:bg-red-50 items-center justify-center gap-1 cursor-pointer rounded-md px-2.5 sm:px-3
-              text-xs h-8">Cancel</button>
-
-      <button type="submit" form="transactionForm" class="h-8 inline-flex border border-red-300 font-semibold text-red-600 transition-colors hover:bg-red-50 items-center justify-center gap-1 cursor-pointer rounded-md px-2.5 sm:px-3
-              text-xs">
-        @if (transactionFormMode === 'CREATE') {
-        <fa-icon [icon]="icons.plus"></fa-icon>Save Transaction
-        } @else {
-        <fa-icon [icon]="icons.edit"></fa-icon>Update Transaction
-        }
-      </button>
       }
     </footer>
   </section>
+</div>
+}
+
+@if (deleteConfirmModal()) {
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4" (click)="closeDeleteConfirmation()">
+  <div class="w-full max-w-md rounded-xl bg-white p-6 shadow-xl" role="alertdialog" aria-modal="true"
+    aria-labelledby="delete-title" aria-describedby="delete-description">
+    <div class="flex items-start gap-4">
+      <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-red-100 text-red-600">
+        <fa-icon [icon]="icons.trash" size="lg"></fa-icon>
+      </div>
+
+      <div>
+        <h2 id="delete-title" class="text-lg font-semibold text-gray-900"> Delete Transaction? </h2>
+        <p id="delete-description" class="mt-2 text-sm text-gray-600">
+          Are you sure you want to delete this transaction
+          <span class="font-semibold text-gray-900">{{ transaction.name }}</span>?
+          This action cannot be undone.
+        </p>
+      </div>
+    </div>
+    <div class="mt-6 flex justify-end gap-3">
+      <button type="button" (click)="closeDeleteConfirmation()"
+        class="inline-flex h-9 items-center justify-center gap-2 rounded-lg border border-gray-300 bg-white px-4 text-xs font-semibold text-gray-700 transition-colors duration-200
+                      hover:bg-gray-50 hover:border-gray-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 focus-visible:ring-offset-2 active:bg-gray-100 cursor-pointer">
+        Cancel
+      </button>
+      <button type="button" (click)="deleteTransaction(transaction.id)"
+        class="inline-flex h-9 items-center justify-center gap-2 rounded-lg bg-red-600 px-4 text-xs font-semibold text-white shadow-sm transition-colors duration-200 hover:bg-red-700
+           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 active:bg-red-800 cursor-pointer">
+        <fa-icon [icon]="icons.trash"></fa-icon>
+        <span>Delete transaction</span>
+      </button>
+    </div>
+  </div>
 </div>
 }

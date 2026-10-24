@@ -5,4 +5,6 @@ export enum SuccessMessages {
   CURRENCY_SETUP_SUCCESS = 'Your preferred currency has been saved.',
   ACCOUNT_SETUP_SUCCESS = 'Your account has been added successfully.',
   ONBOARDING_SUCCESS = 'You’re all set! Welcome to My Wallet.',
+
+  TRANSACTION_DELETE_SUCCESS = 'Transaction deleted successfully.'
 } 

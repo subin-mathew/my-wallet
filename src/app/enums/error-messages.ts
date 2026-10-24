@@ -6,6 +6,7 @@ export enum ErrorMessages {
   CURRENCY_SETUP_ERROR = 'Unable to save your preferred currency. Please try again.',
   ACCOUNT_SETUP_FAILED = 'Unable to save your account. Please try again.',
   ONBOARDING_FAILED = 'Unable to complete your profile setup. Please try again.',
-  LOGOUT_FAILED = 'Unable to Logout. Please try again'
+  LOGOUT_FAILED = 'Unable to Logout. Please try again',
+  TRANSACTION_DELETE_FAILED = 'Failed to delete transaction. Please try again.'
   
 }

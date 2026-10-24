@@ -12,6 +12,6 @@ export interface Transaction {
     transactionDate: Timestamp;
     amountMinor: number;
     currency: string;
-    createdAt: Timestamp;
-    updatedAt: Timestamp;
+    createdAt?: Timestamp;
+    updatedAt?: Timestamp;
 }

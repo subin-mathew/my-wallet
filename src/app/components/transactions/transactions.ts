@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, signal } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faArrowDown, faArrowUp, faCalendarDays, faChevronDown, faChevronUp, faClock, faClose, faCreditCard, faDownload, faEdit, faEye, faFileLines, faIndianRupeeSign, faLandmark, faMoneyBillTransfer, faPaperclip, faPlus, faReceipt, faTag, faTrashCan, faUtensils } from '@fortawesome/free-solid-svg-icons';
+import { faArrowDown, faArrowUp, faCalendarDays, faChevronDown, faChevronUp, faClock, faClose, faCreditCard, faDownload, faEdit, faEye, faFileLines, faIndianRupeeSign, faLandmark, faMoneyBillTransfer, faPaperclip, faPencil, faPlus, faReceipt, faTag, faTrashCan, faUtensils } from '@fortawesome/free-solid-svg-icons';
 import { TransactionFormMode, TransactionType } from '../../types/application-types';
 import { CommonModule } from '@angular/common';
 import { Transaction } from '../../models/transaction';
@@ -14,6 +14,10 @@ import { TransactionForm } from '../../forms/transaction-form';
 import { firebaseAuth } from '../../config/firebase.config';
 import { AccountService } from '../../services/account-service';
 import { CurrencyUtils } from '../../utils/currency-utils';
+import { toast } from 'ngx-sonner';
+import { ValidationMessages } from '../../enums/validation-messages';
+import { ErrorMessages } from '../../enums/error-messages';
+import { SuccessMessages } from '../../enums/success-messages';
 
 @Component({
   imports: [FontAwesomeModule, CommonModule, FormsModule],
@@ -26,7 +30,8 @@ export class Transactions implements OnInit, OnDestroy {
   readonly icons = {
     plus: faPlus, download: faDownload, edit: faEdit, view: faEye, close: faClose, expense: faArrowDown, income: faArrowUp, category: faUtensils,
     account: faLandmark, date: faCalendarDays, time: faClock, rupee: faIndianRupeeSign, card: faCreditCard, transfer: faMoneyBillTransfer,
-    receipt: faReceipt, utensils: faUtensils, tag: faTag, files: faFileLines, paperclip: faPaperclip, up: faChevronUp, down: faChevronDown, trash: faTrashCan
+    receipt: faReceipt, utensils: faUtensils, tag: faTag, files: faFileLines, paperclip: faPaperclip, up: faChevronUp, down: faChevronDown, trash: faTrashCan,
+    pencil: faPencil
   }
 
   //Variables Initializations
@@ -35,6 +40,8 @@ export class Transactions implements OnInit, OnDestroy {
   transactions = signal<Transaction[]>([]);
 
   transactionModal = false;
+  deleteConfirmModal = signal(false);
+  isDeleting = signal(false);
   transactionDetailsExpanded = signal(true);
   additionalDetailsExpanded = signal(false);
   transactionFormMode: TransactionFormMode = 'CREATE';
@@ -51,6 +58,7 @@ export class Transactions implements OnInit, OnDestroy {
   //Load initial data when the component starts.
   ngOnInit(): void {
     this.loadTransactions();
+    console.log(this.transactions)
   }
 
   //Clean up resources, such as subscriptions, to prevent unnecessary background listeners and memory leaks.
@@ -71,7 +79,7 @@ export class Transactions implements OnInit, OnDestroy {
       case 'VIEW':
         return 'Transaction Details';
       default:
-        return 'Create Transaction';
+        return 'Add Transaction';
     }
   }
 
@@ -145,6 +153,7 @@ export class Transactions implements OnInit, OnDestroy {
   openViewTransaction(item: Transaction): void {
     this.transactionFormMode = 'VIEW';
     this.transaction = this.toFormData(item);
+    console.log(this.transaction);
     this.resetModalSections();
     this.transactionModal = true;
   }
@@ -165,10 +174,31 @@ export class Transactions implements OnInit, OnDestroy {
       ).padStart(2, '0')}`,
       amount: item.amountMinor / 100,
       currency: item.currency,
-      paymentMode: item.paymentMode
+      paymentMode: item.paymentMode,
+      createdAt: item.createdAt,
+      updatedAt: item.updatedAt,
+      transactionAt: item.transactionDate
     };
   }
 
+  public toTransaction(form: TransactionForm): Transaction {
+    const date = new Date(`${form.date}T${form.time}:00`);
+
+    return {
+      id: form.id,
+      name: form.name,
+      type: form.type,
+      categoryId: form.categoryId,
+      accountId: form.accountId,
+      description: form.description || '',
+      transactionDate: Timestamp.fromDate(date),
+      amountMinor: Math.round(form.amount * 100),
+      currency: form.currency,
+      paymentMode: form.paymentMode,
+      createdAt: form.createdAt,
+      updatedAt: form.updatedAt
+    };
+  }
   //Method to swith the transaction type
   setTransactionType(type: TransactionType): void {
     if (this.isReadOnly) {
@@ -262,6 +292,32 @@ export class Transactions implements OnInit, OnDestroy {
     return Timestamp.fromDate(parsedDate);
   }
 
+  openDeleteConfirmation(transaction: TransactionForm): void {
+    this.transaction = transaction;
+    this.deleteConfirmModal.set(true);
+  }
+
+  closeDeleteConfirmation(): void {
+    if (this.isDeleting()) return;
+    this.deleteConfirmModal.set(false);
+  }
+
+  //Method to delete a transaction
+  async deleteTransaction(transactionId: string): Promise<void> {
+    const uid = firebaseAuth.currentUser?.uid;
+    if (!uid) {
+      toast.error(ErrorMessages.SESSION_TIMEOUT_ERROR);
+      return;
+    }
+    try {
+      this.transactionService.deleteTransaction(uid, transactionId);
+      toast.success(SuccessMessages.TRANSACTION_DELETE_SUCCESS);
+      this.transactionModal = false;
+      this.deleteConfirmModal.set(false);
+    } catch (error) {
+      toast.error(ErrorMessages.TRANSACTION_DELETE_FAILED);
+    }
+  }
 
 
 }
